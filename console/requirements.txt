@@ -1,0 +1,18 @@
+# app
+requests==2.25.1
+
+# opentelemetry
+opentelemetry-api==1.0.0
+opentelemetry-sdk==1.0.0
+# opentelemetry exporter
+opentelemetry-exporter-opencensus==0.19b0
+
+# depends
+certifi==2020.12.5
+chardet==4.0.0
+idna==2.10
+urllib3==1.26.4
+grpcio==1.37.0
+opencensus-proto==0.1.0
+protobuf==3.15.8
+six==1.15.0

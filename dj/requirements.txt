@@ -1,5 +1,48 @@
-# django
-asgiref==3.3.4
+# app
 Django==3.2
+PyMySQL==0.10.1
+celery==5.0.5
+django-redis==4.12.1
+requests==2.25.1
+
+# opentelemetry
+opentelemetry-api==1.0.0
+opentelemetry-sdk==1.0.0
+# instrumentation
+opentelemetry-instrumentation==0.19b0
+opentelemetry-instrumentation-django==0.19b0
+opentelemetry-instrumentation-celery==0.19b0
+opentelemetry-instrumentation-logging==0.19b0
+opentelemetry-instrumentation-pymysql==0.19b0
+opentelemetry-instrumentation-redis==0.19b0
+opentelemetry-instrumentation-requests==0.19b0
+# exporter
+opentelemetry-exporter-opencensus==0.19b0
+
+# depends
+amqp==5.0.6
+asgiref==3.3.4
+billiard==3.6.4.0
+certifi==2020.12.5
+chardet==4.0.0
+click==7.1.2
+click-didyoumean==0.0.3
+click-plugins==1.1.1
+click-repl==0.1.6
+grpcio==1.37.0
+idna==2.10
+kombu==5.0.2
+opencensus-proto==0.1.0
+opentelemetry-instrumentation-dbapi==0.19b0
+opentelemetry-instrumentation-wsgi==0.19b0
+opentelemetry-util-http==0.19b0
+prompt-toolkit==3.0.18
+protobuf==3.15.8
 pytz==2021.1
+redis==3.5.3
+six==1.15.0
 sqlparse==0.4.1
+urllib3==1.26.4
+vine==5.0.0
+wcwidth==0.2.5
+wrapt==1.12.1

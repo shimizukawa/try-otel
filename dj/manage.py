@@ -3,10 +3,38 @@
 import os
 import sys
 
+# setup exporter
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+
+# console exporter
+from opentelemetry.sdk.trace.export import (
+    ConsoleSpanExporter,
+    SimpleSpanProcessor,
+)
+trace.set_tracer_provider(TracerProvider())
+trace.get_tracer_provider().add_span_processor(
+    SimpleSpanProcessor(ConsoleSpanExporter())
+)
+
+# opencensus exporter
+from opentelemetry.exporter.opencensus.trace_exporter import (
+    OpenCensusSpanExporter,
+)
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(OpenCensusSpanExporter(endpoint="localhost:55678"))
+)
+
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'otel.settings')
+
+    # This call is what makes the Django application be instrumented
+    from opentelemetry.instrumentation.django import DjangoInstrumentor
+    DjangoInstrumentor().instrument()
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

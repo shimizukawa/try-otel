@@ -3,6 +3,11 @@
 import os
 import sys
 
+# patch mysql
+import pymysql
+pymysql.version_info = (1, 4, 2, "final", 0)
+pymysql.install_as_MySQLdb()
+
 # setup exporter
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider

@@ -18,3 +18,14 @@ services:
       - "6832:6832/udp"
       - "14268"
       - "14250"
+
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"

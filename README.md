@@ -1,5 +1,15 @@
 # OpenTelemetry demo with django/celery
 
+OpenTelemetry DEMO for:
+
+* Python
+* Django
+* MySQL with Django ORM
+* Python logging
+* Redis
+* Celery
+* requests
+
 ## invoke docker components
 
 * OpenTelemetry Collector process
@@ -25,6 +35,8 @@ $ python3 -m venv venv
 $ source venv/bin/activate
 (venv) $ pip install -U pip setuptools
 (venv) $ pip install -r requirements.txt
+(venv) $ python manage.py migrate
+(venv) $ python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
 
 invoke celery

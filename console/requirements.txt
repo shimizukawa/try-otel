@@ -11,7 +11,7 @@ opentelemetry-exporter-opencensus==0.19b0
 certifi==2020.12.5
 chardet==4.0.0
 idna==2.10
-urllib3==1.26.4
+urllib3==1.26.5
 grpcio==1.37.0
 opencensus-proto==0.1.0
 protobuf==3.15.8

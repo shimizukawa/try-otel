@@ -1,7 +1,7 @@
 # app
 Django==3.2.5
 PyMySQL==0.10.1
-celery==5.0.5
+celery==5.2.2
 django-redis==4.12.1
 requests==2.25.1
 

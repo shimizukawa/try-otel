@@ -5,5 +5,5 @@ requests
 opentelemetry-api
 opentelemetry-sdk
 
-# opentelemetry exporter
-opentelemetry-exporter-opencensus
+# exporter
+opentelemetry-exporter-otlp-proto-grpc

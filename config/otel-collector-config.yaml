@@ -1,0 +1,52 @@
+# https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/3fd860446371071d409abfc5b101ecc047df9b37/examples/demo/otel-collector-config.yaml
+# https://opentelemetry.io/docs/collector/configuration/
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    const_labels:
+      label1: value1
+
+  # https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/loggingexporter
+  logging:
+    loglevel: debug
+
+  zipkin:
+    endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
+    format: proto
+
+  jaeger:
+    endpoint: jaeger-all-in-one:14250
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+extensions:
+  health_check:
+  pprof:
+    endpoint: :1888
+  zpages:
+    endpoint: :55679
+
+service:
+  extensions: [pprof, zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, zipkin, jaeger]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, prometheus]
+    logs:  # https://opentelemetry-python.readthedocs.io/en/stable/examples/logs/README.html
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]

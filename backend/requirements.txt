@@ -19,4 +19,4 @@ opentelemetry-instrumentation-redis
 opentelemetry-instrumentation-requests
 
 # exporter
-opentelemetry-exporter-opencensus
+opentelemetry-exporter-otlp-proto-grpc

@@ -11,24 +11,28 @@ pymysql.install_as_MySQLdb()
 # setup exporter
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+
+resource = Resource(attributes={
+    SERVICE_NAME: "django-backend"
+})
+
+trace.set_tracer_provider(TracerProvider(resource=resource))
 
 # console exporter
 from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
     SimpleSpanProcessor,
 )
-trace.set_tracer_provider(TracerProvider())
 trace.get_tracer_provider().add_span_processor(
     SimpleSpanProcessor(ConsoleSpanExporter())
 )
 
-# opencensus exporter
-from opentelemetry.exporter.opencensus.trace_exporter import (
-    OpenCensusSpanExporter,
-)
+# otelp exporter
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(OpenCensusSpanExporter(endpoint="localhost:55678"))
+    BatchSpanProcessor(OTLPSpanExporter(endpoint="localhost:4317", insecure=True))
 )
 
 

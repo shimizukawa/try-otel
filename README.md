@@ -14,13 +14,19 @@ OpenTelemetry DEMO for:
 
 * OpenTelemetry Collector process
 * Jaeger process for TRACING monitor
+* Zipkin process for TRACING monitor
+* Prometheus process for Metrics monitor
 * MySQL process for django app
 
 ```bash
 $ docker compse up
 ```
 
-And open http://localhost:16686/
+And open:
+
+- Jaeger: http://localhost:16686/
+- Zipkin: http://localhost:9411/
+- Prometheus: http://localhost:9090/
 
 ## invoke django app and celery
 
@@ -28,7 +34,7 @@ setup
 
 ```console
 $ cd backend
-$ pip install -r requirements.txt
+$ pip install -r requirements.txt -c ../constraints.txt
 $ python manage.py migrate
 $ python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
@@ -51,11 +57,10 @@ setup
 
 ```console
 $ cd console
-$ pip install -r requirements.txt
+$ pip install -r requirements.txt -c ../constraints.txt
 ```
 
 run client
 ```console
 $ python client.py
 ```
-

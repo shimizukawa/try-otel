@@ -17,9 +17,7 @@ OpenTelemetry DEMO for:
 * MySQL process for django app
 
 ```bash
-$ cd $REPOROOT
-$ cd docker
-$ docker-compse up
+$ docker compse up
 ```
 
 And open http://localhost:16686/
@@ -28,25 +26,21 @@ And open http://localhost:16686/
 
 setup
 
-```bash
-$ cd $REPOROOT
+```console
 $ cd dj
-$ python3 -m venv venv
-$ source venv/bin/activate
-(venv) $ pip install -U pip setuptools
-(venv) $ pip install -r requirements.txt
-(venv) $ python manage.py migrate
-(venv) $ python manage.py createsuperuser --username=joe --email=joe@example.com
+$ pip install -r requirements.txt
+$ python manage.py migrate
+$ python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
 
 invoke celery
-```python
-(venv) $ python <TBD>
+```console
+$ python <TBD>
 ```
 
 invoke django
-```python
-(venv) $ python manage.py runserver
+```console
+$ python manage.py runserver
 ```
 
 And open http://localhost:8000/
@@ -55,17 +49,13 @@ And open http://localhost:8000/
 
 setup
 
-```bash
-$ cd $REPOROOT
+```console
 $ cd console
-$ python3 -m venv venv
-$ source venv/bin/activate
-(venv) $ pip install -U pip setuptools
-(venv) $ pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 run client
-```python
-(venv) $ python client.py
+```console
+$ python client.py
 ```
 

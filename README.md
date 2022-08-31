@@ -27,7 +27,7 @@ And open http://localhost:16686/
 setup
 
 ```console
-$ cd dj
+$ cd backend
 $ pip install -r requirements.txt
 $ python manage.py migrate
 $ python manage.py createsuperuser --username=joe --email=joe@example.com

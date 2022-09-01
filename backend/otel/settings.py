@@ -142,7 +142,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-            'format': ('%(levelname)s [%(asctime)s] %(name)s %(message)s'),
+            'format': ('%(levelname)s [%(asctime)s] [trace_id=%(otelTraceID)s span_id=%(otelSpanID)s resource.service.name=%(otelServiceName)s] %(name)s %(message)s'),
         },
     },
     'filters': {

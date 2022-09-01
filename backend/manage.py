@@ -56,6 +56,10 @@ def main():
     from opentelemetry.instrumentation.django import DjangoInstrumentor
     DjangoInstrumentor().instrument()
 
+    # Logging（ログ出力へのtrace_id等差し込み）
+    from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    LoggingInstrumentor().instrument()
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

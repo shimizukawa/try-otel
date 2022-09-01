@@ -24,7 +24,7 @@ opentelemetry-instrumentation-celery==0.33b0
 opentelemetry-instrumentation-dbapi==0.33b0
 opentelemetry-instrumentation-django==0.33b0
 opentelemetry-instrumentation-logging==0.33b0
-opentelemetry-instrumentation-pymysql==0.33b0
+opentelemetry-instrumentation-psycopg2==0.33b0
 opentelemetry-instrumentation-redis==0.33b0
 opentelemetry-instrumentation-requests==0.33b0
 opentelemetry-instrumentation-wsgi==0.33b0
@@ -35,7 +35,7 @@ opentelemetry-util-http==0.33b0
 packaging==21.3
 prompt-toolkit==3.0.30
 protobuf==3.20.1
-PyMySQL==1.0.2
+psycopg2-binary==2.9.3
 pyparsing==3.0.9
 pytz==2022.2.1
 redis==4.3.4

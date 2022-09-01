@@ -84,13 +84,13 @@ WSGI_APPLICATION = 'otel.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db',
-        'USER': 'user',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'pass',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
 
 

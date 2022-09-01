@@ -1,6 +1,6 @@
 # app
 Django
-PyMySQL
+psycopg2-binary
 celery
 django-redis
 requests
@@ -14,7 +14,7 @@ opentelemetry-instrumentation
 opentelemetry-instrumentation-django
 opentelemetry-instrumentation-celery
 opentelemetry-instrumentation-logging
-opentelemetry-instrumentation-pymysql
+opentelemetry-instrumentation-psycopg2
 opentelemetry-instrumentation-redis
 opentelemetry-instrumentation-requests
 

@@ -40,13 +40,10 @@ services:
     ports:
       - "9090:9090"
 
-  mysql:
-    image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
+  postgres:
+    image: postgres:latest
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
+      POSTGRES_PASSWORD: pass
     ports:
-      - "3306:3306"
+      - "5432:5432"

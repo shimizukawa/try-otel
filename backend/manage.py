@@ -3,10 +3,18 @@
 import os
 import sys
 
-# patch mysql
-import pymysql
-pymysql.version_info = (1, 4, 2, "final", 0)
-pymysql.install_as_MySQLdb()
+# patch for opentelemetry-instrumentation-psycopg2
+# psycopg2-binary をインストールしていると動作しないため回避
+# https://github.com/open-telemetry/opentelemetry-python-contrib/issues/610#issuecomment-953168011
+import opentelemetry.instrumentation.dependencies
+orig_get_dependency_conflicts = opentelemetry.instrumentation.dependencies.get_dependency_conflicts
+def psycopg2_or_psycopg2_binary_dependency_conficts(deps):
+    if 'psycopg2 >= 2.7.3.1' in deps:
+        conflict = orig_get_dependency_conflicts(deps)
+        if conflict and not conflict.found:
+            return orig_get_dependency_conflicts(['psycopg2-binary>=2.7.3.1'])
+    return orig_get_dependency_conflicts(deps)
+opentelemetry.instrumentation.dependencies.get_dependency_conflicts = psycopg2_or_psycopg2_binary_dependency_conficts
 
 # setup exporter
 from opentelemetry import trace
@@ -39,6 +47,10 @@ trace.get_tracer_provider().add_span_processor(
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'otel.settings')
+
+    # Postgres
+    from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
+    Psycopg2Instrumentor().instrument(enable_commenter=True, commenter_options={})
 
     # This call is what makes the Django application be instrumented
     from opentelemetry.instrumentation.django import DjangoInstrumentor

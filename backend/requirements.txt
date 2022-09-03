@@ -4,6 +4,7 @@ psycopg2-binary
 celery
 django-redis
 requests
+django-cors-headers
 
 # opentelemetry
 opentelemetry-api

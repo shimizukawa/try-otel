@@ -13,6 +13,7 @@ click-repl==0.2.0
 Deprecated==1.2.13
 Django==4.1
 django-cors-headers==3.13.0
+django-debug-toolbar==3.6.0
 django-redis==5.2.0
 googleapis-common-protos==1.56.4
 grpcio==1.47.0

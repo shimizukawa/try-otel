@@ -5,6 +5,7 @@ celery
 django-redis
 requests
 django-cors-headers
+django-debug-toolbar
 
 # opentelemetry
 opentelemetry-api

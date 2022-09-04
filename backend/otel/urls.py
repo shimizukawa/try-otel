@@ -18,6 +18,7 @@ from django.urls import path, include
 from home import views as home_views
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     path('admin/', admin.site.urls),
     path('accounts/profile/', home_views.user_home),
     path('accounts/', include('django.contrib.auth.urls')),

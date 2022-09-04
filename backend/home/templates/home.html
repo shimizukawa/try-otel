@@ -9,5 +9,14 @@
 
 <a href="{% url 'login' %}">LOGIN</a>
 
+<div>
+    <h2>users</h2>
+    {% for u in users %}
+    <ul>
+        <li>{{u.username}}: {{u.email}}</li>
+    </ul>
+    {% endfor %}
+</div>
+
 </body>
 </html>

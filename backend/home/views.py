@@ -1,9 +1,18 @@
+import logging
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.models import User
+
+logger = logging.getLogger(__name__)
+
 
 def home(request):
-    return render(request, 'home.html')
+    users = User.objects.all()
+    headers = request.headers
+    logger.info("headers %r", headers, extra={"headers": headers})
+    return render(request, 'home.html', {'users': users, 'headers': headers})
 
 
 @login_required

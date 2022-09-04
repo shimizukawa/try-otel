@@ -4,7 +4,7 @@ OpenTelemetry DEMO for:
 
 * Python
 * Django
-* MySQL with Django ORM
+* Postgres with Django ORM
 * Python logging
 * Redis
 * Celery
@@ -16,7 +16,7 @@ OpenTelemetry DEMO for:
 * Jaeger process for TRACING monitor
 * Zipkin process for TRACING monitor
 * Prometheus process for Metrics monitor
-* MySQL process for django app
+* Postgres process for django app
 
 ```bash
 $ docker compse up
@@ -64,3 +64,19 @@ run client
 ```console
 $ python client.py
 ```
+
+## run react frontend
+
+setup
+
+```console
+$ cd frontend
+$ npm install
+```
+
+run client
+```console
+$ npm run dev
+```
+
+And open http://localhost:3000 (instead of 127.0.0.1:3000 !)

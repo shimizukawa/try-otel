@@ -8,7 +8,9 @@ receivers:
       http:
         endpoint: 0.0.0.0:4318
         cors:  # https://github.com/open-telemetry/opentelemetry-collector/blob/main/config/confighttp/README.md
-          allowed_origins: http://localhost:3000
+          allowed_origins:
+            - http://127.0.0.1:3000
+            - http://localhost:3000
 
 exporters:
   prometheus:

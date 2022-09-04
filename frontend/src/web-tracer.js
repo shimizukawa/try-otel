@@ -18,7 +18,9 @@ export default (serviceName) => {
     }),
   });
 
-  const exporter = new OTLPTraceExporter();
+  const exporter = new OTLPTraceExporter({
+    // url: "http://localhost:4318/v1/traces", by default. http://127.0.0.1:3000 violate sop.
+  });
 
   provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
   provider.addSpanProcessor(new BatchSpanProcessor(exporter));

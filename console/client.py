@@ -29,12 +29,15 @@ trace.get_tracer_provider().add_span_processor(
 
 # from https://github.com/open-telemetry/opentelemetry-python/blob/69c9e39/docs/examples/logs/example.py
 from opentelemetry.sdk._logs import LogEmitterProvider, set_log_emitter_provider
-from opentelemetry.sdk._logs.export import BatchLogProcessor
+from opentelemetry.sdk._logs.export import BatchLogProcessor, SimpleLogProcessor, ConsoleLogExporter
 from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
 log_emitter_provider = LogEmitterProvider(resource=resource)
 set_log_emitter_provider(log_emitter_provider)
 log_emitter_provider.add_log_processor(
     BatchLogProcessor(OTLPLogExporter(endpoint="localhost:4317", insecure=True))
+)
+log_emitter_provider.add_log_processor(
+    SimpleLogProcessor(ConsoleLogExporter())
 )
 
 # add handler in logging_config

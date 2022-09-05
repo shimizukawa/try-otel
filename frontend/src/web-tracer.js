@@ -18,6 +18,7 @@ export default (serviceName) => {
     }),
   });
 
+  // https://www.npmjs.com/package/@opentelemetry/exporter-trace-otlp-http
   const exporter = new OTLPTraceExporter({
     // url: "http://localhost:4318/v1/traces", by default. http://127.0.0.1:3000 violate sop.
   });
@@ -30,6 +31,7 @@ export default (serviceName) => {
   });
   registerInstrumentations({
     instrumentations: [
+      // https://www.npmjs.com/package/@opentelemetry/instrumentation-fetch
       new FetchInstrumentation({
         // propagateTraceHeaderCorsUrls
         // https://github.com/open-telemetry/opentelemetry-js/discussions/2209

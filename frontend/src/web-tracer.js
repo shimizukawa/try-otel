@@ -29,7 +29,17 @@ export default (serviceName) => {
     contextManager: new ZoneContextManager(),
   });
   registerInstrumentations({
-    instrumentations: [new FetchInstrumentation()],
+    instrumentations: [
+      new FetchInstrumentation({
+        // propagateTraceHeaderCorsUrls
+        // https://github.com/open-telemetry/opentelemetry-js/discussions/2209
+        // https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_instrumentation_fetch.FetchInstrumentationConfig.html
+        // https://github.com/open-telemetry/opentelemetry-js/tree/main/examples/opentelemetry-web
+        propagateTraceHeaderCorsUrls: [
+          'http://localhost:8000/',
+        ],
+      }),
+    ],
   });
 
   const tracer = provider.getTracer(serviceName);

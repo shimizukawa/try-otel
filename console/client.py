@@ -34,9 +34,19 @@ trace.get_tracer_provider().add_span_processor(
     BatchSpanProcessor(OTLPSpanExporter(endpoint="localhost:4317", insecure=True))
 )
 
-# metrics
+# metrics exporter
 # https://github.com/open-telemetry/opentelemetry.io/blob/dfadc50/content/en/docs/instrumentation/python/exporters.md
-# TODO: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics
+# https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics
+from opentelemetry import metrics
+from opentelemetry.sdk.metrics import MeterProvider
+from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader, ConsoleMetricExporter
+from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
+
+provider = MeterProvider(resource=resource, metric_readers=[
+    PeriodicExportingMetricReader(ConsoleMetricExporter()),
+    PeriodicExportingMetricReader(OTLPMetricExporter(endpoint="localhost:4317", insecure=True)),
+])
+metrics.set_meter_provider(provider)
 
 
 # logging setup

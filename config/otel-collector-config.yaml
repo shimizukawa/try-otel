@@ -12,6 +12,18 @@ receivers:
             - http://127.0.0.1:3000
             - http://localhost:3000
 
+  hostmetrics:
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/hostmetricsreceiver
+    collection_interval: 10s
+    scrapers:
+      cpu:
+      disk:
+      filesystem:
+      load:
+      memory:
+      network:
+      paging:
+
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
@@ -49,7 +61,7 @@ service:
       processors: [batch]
       exporters: [logging, zipkin, jaeger]
     metrics:
-      receivers: [otlp]
+      receivers: [otlp, hostmetrics]
       processors: [batch]
       exporters: [logging, prometheus]
     logs:  # https://opentelemetry-python.readthedocs.io/en/stable/examples/logs/README.html

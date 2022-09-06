@@ -1,4 +1,5 @@
 import logging
+import random
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,8 @@ def home(request):
     users = User.objects.all()
     headers = request.headers
     logger.info("headers %r", headers, extra={"headers": headers})
+    if random.random() < 0.1:
+        raise RuntimeError('random error')
     return render(request, 'home.html', {'users': users, 'headers': headers})
 
 

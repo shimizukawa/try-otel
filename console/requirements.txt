@@ -1,5 +1,6 @@
 # app
 requests
+django-environ
 
 # opentelemetry
 opentelemetry-api

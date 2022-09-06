@@ -1,4 +1,10 @@
 # https://github.com/open-telemetry/opentelemetry-python/blob/e1a4c38/docs/examples/django/client.py
+from pathlib import Path
+
+import environ
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(BASE_DIR / '.env')
 
 import requests
 

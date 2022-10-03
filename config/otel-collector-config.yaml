@@ -25,6 +25,12 @@ receivers:
       paging:
 
 exporters:
+  otlp:
+    endpoint: uptrace:14317
+    tls:
+      insecure: true
+    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14317/1' }
+
   prometheus:
     endpoint: "0.0.0.0:8889"
     const_labels:
@@ -44,7 +50,11 @@ exporters:
       insecure: true
 
 processors:
+  resourcedetection:
+    detectors: ['system']
   batch:
+    send_batch_size: 10000
+    timeout: 10s
 
 extensions:
   health_check:
@@ -59,12 +69,16 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, zipkin, jaeger]
+      exporters: [logging, zipkin, jaeger, otlp]
     metrics:
-      receivers: [otlp, hostmetrics]
+      receivers: [otlp]
       processors: [batch]
-      exporters: [logging, prometheus]
+      exporters: [logging, prometheus, otlp]
+    metrics/hostmetrics:
+      receivers: [hostmetrics]
+      processors: [batch, resourcedetection]
+      exporters: [otlp]
     logs:  # https://opentelemetry-python.readthedocs.io/en/stable/examples/logs/README.html
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [logging, otlp]

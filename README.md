@@ -15,9 +15,14 @@ Applications:
 Monitoring/Visualizing
 
 * OpenTelemetry Collector process
+* Uptrace monitor
 * Jaeger process for TRACING monitor
 * Zipkin process for TRACING monitor
 * Prometheus process for Metrics monitor
+
+Email server
+
+* MailHog to receive alert
 
 ## invoke docker components
 
@@ -27,9 +32,11 @@ $ docker compse up
 
 And open:
 
+* Uptrace:http://localhost:14318/
 - Jaeger: http://localhost:16686/
 - Zipkin: http://localhost:9411/
 - Prometheus: http://localhost:9090/
+- Email: http://localhost:8025/
 
 ## invoke django app and celery
 

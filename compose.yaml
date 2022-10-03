@@ -19,8 +19,12 @@ services:
   otel-collector:
     image: ${OTELCOL_IMG}
     command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    restart: on-failure
+    user: '0:0' # required for logs
     volumes:
       - ./config/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log:ro
     ports:
       - "1888:1888"   # pprof extension
       - "8888:8888"   # Prometheus metrics exposed by the collector
@@ -49,3 +53,70 @@ services:
       POSTGRES_PASSWORD: pass
     ports:
       - "5432:5432"
+
+# for uptrace
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:22.7
+    restart: on-failure
+    environment:
+      CLICKHOUSE_DB: uptrace
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'localhost:8123/ping']
+      interval: 1s
+      timeout: 1s
+      retries: 30
+    volumes:
+      - ch_data:/var/lib/clickhouse
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  uptrace:
+    image: 'uptrace/uptrace:latest'
+    volumes:
+      - uptrace_data:/var/lib/uptrace
+      - ./config/uptrace.yml:/etc/uptrace/uptrace.yml
+    ports:
+      - '14317:14317'
+      - '14318:14318'
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+
+  alertmanager:
+    image: prom/alertmanager:v0.24.0
+    restart: on-failure
+    volumes:
+      - ./config/alertmanager.yml:/etc/alertmanager/config.yml
+      - alertmanager_data:/alertmanager
+    ports:
+      - 9093:9093
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    restart: on-failure
+    ports:
+      - '8025:8025'
+
+  ## commented-out to stop demo_logs
+  # vector:
+  #   image: timberio/vector:0.24.X-alpine
+  #   volumes:
+  #     - ./config/vector.toml:/etc/vector/vector.toml:ro
+  #   extra_hosts:
+  #     - 'host.docker.internal:host-gateway'
+
+
+volumes:
+  uptrace_data:
+    driver: local
+  ch_data:
+    driver: local
+  alertmanager_data:
+    driver: local

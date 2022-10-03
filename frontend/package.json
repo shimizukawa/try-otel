@@ -7,9 +7,6 @@
   "scripts": {
     "build": "react-scripts build",
     "dev": "react-scripts start",
-    "docker:start": "cd ./docker && docker-compose down && docker-compose up",
-    "docker:startd": "cd ./docker && docker-compose down && docker-compose up -d",
-    "docker:stop": "cd ./docker && docker-compose down",
     "start": "serve -s build"
   },
   "repository": {

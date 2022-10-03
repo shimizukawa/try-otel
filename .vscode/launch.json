@@ -5,12 +5,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm run dev",
+      "name": "npm run dev",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/frontend",
+      "env": {
+          "BROWSER": "none"
+      },
+      "serverReadyAction": {
+        "pattern": "Local:.*https?://\\S+",
+        "uriFormat": "http://localhost:3000",
+        "action": "openExternally"
+      }
+    },
+    {
       "name": "Python:client.py",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/console/client.py",
       "console": "integratedTerminal",
-      "justMyCode": true,
+      "justMyCode": false,
     },
     {
       "name": "Python: Django",

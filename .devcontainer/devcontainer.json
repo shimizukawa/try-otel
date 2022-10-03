@@ -12,6 +12,7 @@
 			"version": "latest"
 		},
 		"git": "latest",
+		"github-cli": "latest",
 		"python": "none",  // none means that this install py-utils on base image python
 		"node": "16"
 	},

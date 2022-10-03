@@ -1,22 +1,25 @@
 # OpenTelemetry demo with django/celery
 
-OpenTelemetry DEMO for:
+This is a OpenTelemetry DEMO.
 
-* Python
-* Django
+Applications:
+
+* Django as Python Web Application Server
 * Postgres with Django ORM
 * Python logging
-* Redis
-* Celery
-* requests
+* Requests as Python HTTP Client
+* React as Web Frontend by JavaScript
+* Redis (NOT READY)
+* Celery (NOT READY)
 
-## invoke docker components
+Monitoring/Visualizing
 
 * OpenTelemetry Collector process
 * Jaeger process for TRACING monitor
 * Zipkin process for TRACING monitor
 * Prometheus process for Metrics monitor
-* Postgres process for django app
+
+## invoke docker components
 
 ```bash
 $ docker compse up
@@ -39,7 +42,7 @@ $ python manage.py migrate
 $ python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
 
-invoke celery
+invoke celery (NOT READY)
 ```console
 $ python <TBD>
 ```

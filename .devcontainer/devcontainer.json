@@ -5,10 +5,10 @@
 	"image": "python:3.10-bullseye",
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:1": {
-            "username": "vscode",
-            "uid": "1000",
-            "gid": "1000",
-            "upgradePackages": "true"
+			"username": "vscode",
+			"uid": "1000",
+			"gid": "1000",
+			"upgradePackages": "true"
 		},
 		"ghcr.io/devcontainers/features/docker-in-docker:1": {
 			"version": "latest",

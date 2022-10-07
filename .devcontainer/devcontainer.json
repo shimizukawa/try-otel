@@ -1,21 +1,27 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/python-3
 {
-	"name": "GitHub Codespaces (py310)",
-	"image": "mcr.microsoft.com/devcontainers/python:3.10-bullseye",
+	"name": "py310",
+	"image": "python:3.10-bullseye",
 	"features": {
-		"docker-in-docker": {
+		"ghcr.io/devcontainers/features/common-utils:1": {
+            "username": "vscode",
+            "uid": "1000",
+            "gid": "1000",
+            "upgradePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/docker-in-docker:1": {
 			"version": "latest",
 			"dockerDashComposeVersion": "v2"
 		},
-		"ghcr.io/devcontainers/features/common-utils:1": {
-			"version": "latest"
-		},
-		"git": "latest",
-		"github-cli": "latest",
-		"python": "none",  // none means that this install py-utils on base image python
-		"node": "16"
+		"ghcr.io/devcontainers/features/git:1": "latest",
+		"ghcr.io/devcontainers/features/github-cli:1": "latest",
+		"ghcr.io/devcontainers/features/python:1": "none",  // none to install py-utils on base image python
+		"ghcr.io/devcontainers/features/node:1": "16"
 	},
+	"overrideFeatureInstallOrder": [
+		"ghcr.io/devcontainers/features/common-utils"
+	],
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
@@ -58,5 +64,8 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+
 	"postCreateCommand": "bash .devcontainer/post_create_command.sh",
+
+	"postStartCommand": "bash .devcontainer/post_start_command.sh"
 }

@@ -4,7 +4,6 @@ psycopg2-binary
 celery
 django-redis
 requests
-django-cors-headers
 django-debug-toolbar
 django-environ
 

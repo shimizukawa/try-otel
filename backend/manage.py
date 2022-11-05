@@ -67,7 +67,7 @@ metrics.set_meter_provider(provider)
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'otel.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
     # Postgres
     from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor

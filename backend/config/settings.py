@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'otel.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'otel.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
@@ -145,8 +145,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import otel.log
-otel.log.setup()
+import config.log
+config.log.setup()
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -166,7 +166,7 @@ LOGGING = {
             '()': 'opentelemetry.sdk._logs.LoggingHandler',
         },
         'otel_span': {  # Attach OTLP span handler to root logger
-            '()': otel.log.SpanLoggingHandler,
+            '()': config.log.SpanLoggingHandler,
         },
     },
     'loggers': {

@@ -47,7 +47,7 @@ trace.get_tracer_provider().add_span_processor(
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(OTLPSpanExporter(endpoint="localhost:4317", insecure=True))
+    BatchSpanProcessor(OTLPSpanExporter(endpoint="lvh.me:4317", insecure=True))
 )
 
 # metrics exporter
@@ -60,7 +60,7 @@ from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExp
 
 provider = MeterProvider(resource=resource, metric_readers=[
     PeriodicExportingMetricReader(ConsoleMetricExporter()),
-    PeriodicExportingMetricReader(OTLPMetricExporter(endpoint="localhost:4317", insecure=True)),
+    PeriodicExportingMetricReader(OTLPMetricExporter(endpoint="lvh.me:4317", insecure=True)),
 ])
 metrics.set_meter_provider(provider)
 

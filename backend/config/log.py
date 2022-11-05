@@ -42,7 +42,7 @@ def setup(resource: Resource|None = None):
     log_emitter_provider = LoggerProvider(resource=resource)
     set_logger_provider(log_emitter_provider)
     log_emitter_provider.add_log_record_processor(
-        BatchLogRecordProcessor(OTLPLogExporter(endpoint="localhost:4317", insecure=True))
+        BatchLogRecordProcessor(OTLPLogExporter(endpoint="lvh.me:4317", insecure=True))
     )
     log_emitter_provider.add_log_record_processor(
         SimpleLogRecordProcessor(ConsoleLogExporter())

@@ -4,6 +4,7 @@ This is a OpenTelemetry DEMO.
 
 Applications:
 
+* Nginx as Web Server
 * Django as Python Web Application Server
 * Postgres with Django ORM
 * Python logging
@@ -32,11 +33,11 @@ $ docker compse up
 
 And open:
 
-* Uptrace:http://localhost:14318/
-- Jaeger: http://localhost:16686/
-- Zipkin: http://localhost:9411/
-- Prometheus: http://localhost:9090/
-- Email: http://localhost:8025/
+* Uptrace:http://uptrace.lvh.me/
+- Jaeger: http://jaeger.lvh.me/
+- Zipkin: http://zipkin.lvh.me/
+- Prometheus: http://prometheus.lvh.me/
+- Email: http://mailhog.lvh.me/
 
 ## invoke django app and celery
 
@@ -59,7 +60,7 @@ invoke django
 $ python manage.py runserver
 ```
 
-And open http://localhost:8000/
+And open http://api.lvh.me/
 
 ## run console client
 
@@ -89,4 +90,4 @@ run client
 $ npm run dev
 ```
 
-And open http://localhost:3000 (instead of 127.0.0.1:3000 !)
+And open http://lvh.me/

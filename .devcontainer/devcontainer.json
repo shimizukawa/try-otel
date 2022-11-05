@@ -77,6 +77,7 @@
 		9093,
 		9411,
 		13133,
+		14317,
 		14318,
 		16686,
 		55678,
@@ -88,7 +89,7 @@
 			"onAutoForward": "notify"
 		},
 		"1888": {
-			"label": "otel-pprof",
+			"label": "otel/pprof",
 			"onAutoForward": "silent"
 		},
 		"3000": {
@@ -96,11 +97,11 @@
 			"onAutoForward": "silent"
 		},
 		"4317": {
-			"label": "otel-otlp-gRPC",
+			"label": "otel/otlp/gRPC",
 			"onAutoForward": "silent"
 		},
 		"4318": {
-			"label": "otel-otlp-http",
+			"label": "otel/otlp/http",
 			"onAutoForward": "silent"
 		},
 		"5432": {
@@ -120,11 +121,11 @@
 			"onAutoForward": "silent"
 		},
 		"8888": {
-			"label": "otel-prometheus",
+			"label": "otel/prometheus",
 			"onAutoForward": "silent"
 		},
 		"8889": {
-			"label": "otel-prometheus",
+			"label": "otel/prometheus",
 			"onAutoForward": "silent"
 		},
 		"9000": {
@@ -144,11 +145,15 @@
 			"onAutoForward": "silent"
 		},
 		"13133": {
-			"label": "otel-halthcheck",
+			"label": "otel/halthcheck",
+			"onAutoForward": "silent"
+		},
+		"14317": {
+			"label": "uptrace/gRPC",
 			"onAutoForward": "silent"
 		},
 		"14318": {
-			"label": "uptrace",
+			"label": "uptrace/http",
 			"onAutoForward": "silent"
 		},
 		"16686": {
@@ -156,11 +161,11 @@
 			"onAutoForward": "silent"
 		},
 		"55678": {
-			"label": "otel-opencensus",
+			"label": "otel/opencensus",
 			"onAutoForward": "silent"
 		},
 		"55679": {
-			"label": "otel-zpages",
+			"label": "otel/zpages",
 			"onAutoForward": "silent"
 		}
 	},

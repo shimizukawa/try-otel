@@ -7,10 +7,13 @@ receivers:
       grpc:
       http:
         endpoint: 0.0.0.0:4318
+        include_metadata: true
         cors:  # https://github.com/open-telemetry/opentelemetry-collector/blob/main/config/confighttp/README.md
           allowed_origins:
             - http://127.0.0.1:3000
             - http://localhost:3000
+            - http://lvh.me
+            - http://*.lvh.me
 
   hostmetrics:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/hostmetricsreceiver

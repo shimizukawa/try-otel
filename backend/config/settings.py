@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "host.docker.internal",
+    "api.lvh.me",
 ]
 
 
@@ -195,7 +196,8 @@ LOGGING = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "http://lvh.me:80"
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [

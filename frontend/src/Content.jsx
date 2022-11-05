@@ -28,7 +28,7 @@ class Content extends BaseOpenTelemetryComponent {
   }
   requestServer() {
     this.setState({isLoading: true})
-    fetch('http://localhost:8000', {mode: 'cors'}).then(response => {
+    fetch('http://api.lvh.me/api/users', {mode: 'cors'}).then(response => {
       this.setState({isLoading: false})
     })
   }

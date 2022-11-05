@@ -21,6 +21,9 @@ export default (serviceName) => {
   // https://www.npmjs.com/package/@opentelemetry/exporter-trace-otlp-http
   const exporter = new OTLPTraceExporter({
     // url: "http://localhost:4318/v1/traces", by default. http://127.0.0.1:3000 violate sop.
+    // url: "http://lvh.me:4318/v1/traces",  // http
+    // url: "http://otlp.lvh.me/v1/traces",  // http
+    url: "http://lvh.me/v1/traces",  // http to avoid CORS error
   });
 
   provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
@@ -38,7 +41,7 @@ export default (serviceName) => {
         // https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_instrumentation_fetch.FetchInstrumentationConfig.html
         // https://github.com/open-telemetry/opentelemetry-js/tree/main/examples/opentelemetry-web
         propagateTraceHeaderCorsUrls: [
-          'http://localhost:8000/',
+          'http://api.lvh.me/',
         ],
       }),
     ],

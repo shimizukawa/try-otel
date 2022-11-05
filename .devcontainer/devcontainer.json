@@ -60,7 +60,110 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [
+		80,
+		1888,
+		3000,
+		4317,
+		4318,
+		5432,
+		8000,
+		8025,
+		8123,
+		8888,
+		8889,
+		9000,
+		9090,
+		9093,
+		9411,
+		13133,
+		14318,
+		16686,
+		55678,
+		55679
+	],
+	"portsAttributes": {
+		"80": {
+			"label": "nginx",
+			"onAutoForward": "notify"
+		},
+		"1888": {
+			"label": "otel-pprof",
+			"onAutoForward": "silent"
+		},
+		"3000": {
+			"label": "front",
+			"onAutoForward": "silent"
+		},
+		"4317": {
+			"label": "otel-otlp-gRPC",
+			"onAutoForward": "silent"
+		},
+		"4318": {
+			"label": "otel-otlp-http",
+			"onAutoForward": "silent"
+		},
+		"5432": {
+			"label": "postgres",
+			"onAutoForward": "silent"
+		},
+		"8000": {
+			"label": "api",
+			"onAutoForward": "silent"
+		},
+		"8025": {
+			"label": "mailhog",
+			"onAutoForward": "silent"
+		},
+		"8123": {
+			"label": "clickhouse",
+			"onAutoForward": "silent"
+		},
+		"8888": {
+			"label": "otel-prometheus",
+			"onAutoForward": "silent"
+		},
+		"8889": {
+			"label": "otel-prometheus",
+			"onAutoForward": "silent"
+		},
+		"9000": {
+			"label": "clickhouse",
+			"onAutoForward": "silent"
+		},
+		"9090": {
+			"label": "prometheus",
+			"onAutoForward": "silent"
+		},
+		"9093": {
+			"label": "alertmanager",
+			"onAutoForward": "silent"
+		},
+		"9411": {
+			"label": "zipkin",
+			"onAutoForward": "silent"
+		},
+		"13133": {
+			"label": "otel-halthcheck",
+			"onAutoForward": "silent"
+		},
+		"14318": {
+			"label": "uptrace",
+			"onAutoForward": "silent"
+		},
+		"16686": {
+			"label": "jaeger",
+			"onAutoForward": "silent"
+		},
+		"55678": {
+			"label": "otel-opencensus",
+			"onAutoForward": "silent"
+		},
+		"55679": {
+			"label": "otel-zpages",
+			"onAutoForward": "silent"
+		}
+	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip3 install --user -r requirements.txt",

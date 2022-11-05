@@ -54,6 +54,20 @@ services:
     ports:
       - "5432:5432"
 
+  nginx:
+    build:
+      context: ./nginx/
+      args:
+        VARIANT: ${NGINX_VARIANT}
+    image: nginx-otel:${NGINX_VARIANT}
+    volumes:
+      - ./config/nginx_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
+      - ./config/nginx_router.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 # for uptrace
 
   clickhouse:

@@ -10,10 +10,11 @@ import requests
 
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+from opentelemetry.sdk import resources
 
-resource = Resource(attributes={
-    SERVICE_NAME: "console client"
+resource = resources.Resource(attributes={
+    resources.SERVICE_NAME: "console-client",
+    resources.SERVICE_NAMESPACE: "myapp",
 })
 trace.set_tracer_provider(TracerProvider(resource=resource))
 
@@ -77,7 +78,7 @@ def main():
 
         # action
         response = requests.get(
-            'http://api.lvh.me/',
+            'http://api.lvh.me/api/users',
             params={'param': 1234},
         )
         assert response.status_code == 200

@@ -14,7 +14,8 @@ import { registerInstrumentations } from '@opentelemetry/instrumentation';
 export default (serviceName) => {
   const provider = new WebTracerProvider({
     resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: "react-load-example"
+        [SemanticResourceAttributes.SERVICE_NAME]: "react-load-example",
+        [SemanticResourceAttributes.SERVICE_NAMESPACE]: "myapp"
     }),
   });
 

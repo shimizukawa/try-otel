@@ -25,10 +25,11 @@ opentelemetry.instrumentation.dependencies.get_dependency_conflicts = psycopg2_o
 # setup exporter
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+from opentelemetry.sdk import resources
 
-resource = Resource(attributes={
-    SERVICE_NAME: "django-backend"
+resource = resources.Resource(attributes={
+    resources.SERVICE_NAME: "django-backend",
+    resources.SERVICE_NAMESPACE: "myapp",
 })
 
 trace.set_tracer_provider(TracerProvider(resource=resource))

@@ -26,8 +26,7 @@ def users(request):
         }
         for user in User.objects.all()
     ]
-    headers = request.headers
-    logger.info("headers %r", headers, extra={"headers": headers})
+    logger.info("headers in view.users: %r", request.headers)
     return HttpResponse(
         json.dumps({"users": users}, ensure_ascii=False, cls=JSONEncoder),
         content_type="application/json",

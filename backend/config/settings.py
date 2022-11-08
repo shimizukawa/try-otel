@@ -143,8 +143,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import config.log
-config.log.setup()
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -160,31 +158,28 @@ LOGGING = {
             'formatter': 'standard'
         },
         'otel_log': {  # Attach OTLP log handler to root logger
-            # this handler cause exceptions in django runserver.
-            '()': 'opentelemetry.sdk._logs.LoggingHandler',
-        },
-        'otel_span': {  # Attach OTLP span handler to root logger
-            '()': config.log.SpanLoggingHandler,
+            # '()': 'opentelemetry.sdk._logs.LoggingHandler',
+            '()': 'config.log.SafeLoggingHandler',
         },
     },
     'loggers': {
         '': {  # 'root' の代わり。全てキャッチする
-            'handlers': ['console', 'otel_span'],  # 'otel_log' not worked
+            'handlers': ['console', 'otel_log'],
             'level': 'NOTSET',
             'propagate': False
         },
         'django': {
-            'handlers': ['console', 'otel_span'],  # 'otel_log' not worked
+            'handlers': ['console', 'otel_log'],
             'level': 'INFO',
             'propagate': False
         },
         'django.request': {
-            'handlers': ['console', 'otel_span'],  # 'otel_log' not worked
+            'handlers': ['console', 'otel_log'],
             'level': 'ERROR',
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': ['console'],  # 'otel_log' not worked
+            'handlers': ['console', 'otel_log'],
             'level': 'DEBUG',
             'propagate': False
         },

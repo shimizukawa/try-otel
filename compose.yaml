@@ -61,6 +61,7 @@ services:
     volumes:
       - ./config/nginx-otel.toml:/etc/nginx/conf.d/nginx-otel.toml
       - ./config/nginx-router.conf:/etc/nginx/conf.d/default.conf
+      - ./var/log/nginx:/var/log/nginx
     ports:
       - 80:80
     extra_hosts:
@@ -116,13 +117,16 @@ services:
     ports:
       - '8025:8025'
 
-  ## commented-out to stop demo_logs
-  # vector:
-  #   image: timberio/vector:0.24.X-alpine
-  #   volumes:
-  #     - ./config/vector.toml:/etc/vector/vector.toml:ro
-  #   extra_hosts:
-  #     - 'host.docker.internal:host-gateway'
+  vector:
+    image: timberio/vector:0.25.X-alpine
+    volumes:
+      - ./config/vector.toml:/etc/vector/vector.toml:ro
+      - /var/log:/var/log:ro
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    profiles:
+      # まだnginx logフォーマット設定が完了していないため起動させない
+      - notstart
 
 
 volumes:

@@ -4,12 +4,14 @@ This is a OpenTelemetry DEMO.
 
 Applications:
 
-* Nginx as Web Server
-* Django as Python Web Application Server
-* Postgres with Django ORM
-* Python logging
-* Requests as Python HTTP Client
-* React as Web Frontend by JavaScript
+* Nginx as Web Server (TRACE)
+* WSGI as Python Web Application Server (TRACE, METRIC)
+* Django as Python Web Application Server (TRACE, METRIC, LOG)
+* Django ORM with Postgres (TRACE, LOG)
+* Python logging (LOG)
+* Requests as Python HTTP Client (TRACE, LOG)
+* React as Web Frontend by JavaScript (TRACE, LOG)
+* Postgres (NOT READY)
 * Redis (NOT READY)
 * Celery (NOT READY)
 

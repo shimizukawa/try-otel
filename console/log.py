@@ -18,19 +18,24 @@ class SpanLoggingHandler(LoggingHandler):
     def emit(self, record: logging.LogRecord) -> None:
         translated_record = self._translate(record)
         attributes = {
-            key: value
-            for (key, value) in translated_record.attributes.items()
-            if not key.startswith('otel')
-        } | dict(
-            severity_text = record.levelname,
-            severity_number = std_to_otlp(record.levelno).value,
-        )
+            "body": translated_record.body,
+            "severity_text": translated_record.severity_text,
+            "severity_number": translated_record.severity_number.value,
+        }
+
         span = get_current_span()
         span.add_event(
-            translated_record.body,
+            record.name,
             attributes,
             translated_record.timestamp
         )
+
+        # if span is not exist?
+        # attributes = {
+        #     key: value
+        #     for (key, value) in translated_record.attributes.items()
+        #     if not key.startswith('otel')
+        # )
 
 
 def setup(resource: Resource):

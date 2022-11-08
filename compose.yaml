@@ -57,12 +57,10 @@ services:
   nginx:
     build:
       context: ./nginx/
-      args:
-        VARIANT: ${NGINX_VARIANT}
-    image: nginx-otel:${NGINX_VARIANT}
+    image: nginx-otel:1.22.0
     volumes:
-      - ./config/nginx_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
-      - ./config/nginx_router.conf:/etc/nginx/conf.d/default.conf
+      - ./config/nginx-otel.toml:/etc/nginx/conf.d/nginx-otel.toml
+      - ./config/nginx-router.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
     extra_hosts:

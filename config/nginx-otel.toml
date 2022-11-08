@@ -1,0 +1,18 @@
+# https://github.com/open-telemetry/opentelemetry-cpp-contrib/blob/0ffedb3406a42627aa5e20aed77e5d21ad133888/instrumentation/nginx/README.md
+
+exporter = "otlp"
+processor = "simple"
+
+[exporters.otlp]
+# Alternatively the OTEL_EXPORTER_OTLP_ENDPOINT environment variable can also be used.
+host = "otel-collector"
+port = 4317
+# Optional: enable SSL, for endpoints that support it
+# use_ssl = true
+# Optional: set a filesystem path to a pem file to be used for SSL encryption
+# (when use_ssl = true)
+# ssl_cert_path = "/path/to/cert.pem"
+
+[service]
+# Can also be set by the OTEL_SERVICE_NAME environment variable.
+name = "nginx"

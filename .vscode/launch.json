@@ -28,6 +28,7 @@
       "justMyCode": false,
     },
     {
+      // "preLaunchTask": "pip install"
       "name": "Python: Django",
       "type": "python",
       "request": "launch",
@@ -35,8 +36,7 @@
       "console": "integratedTerminal",
       "args": ["runserver", "0.0.0.0:8000", "--noreload", "--nothreading"],
       "django": true,
-      "justMyCode": false,
-      "preLaunchTask": "pip install"
+      "justMyCode": false
     }
   ]
 }

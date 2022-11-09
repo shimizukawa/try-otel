@@ -2,6 +2,9 @@
 requests
 django-environ
 
+# utility
+setuptools-scm
+
 # opentelemetry
 opentelemetry-api
 opentelemetry-sdk

@@ -14,9 +14,20 @@ logger = logging.getLogger(__name__)
 
 # setup resource
 from opentelemetry.sdk import resources
+from setuptools_scm import get_version
+import sys
 resource = resources.Resource(attributes={
+    # # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/#service
     resources.SERVICE_NAME: "console-client",
     resources.SERVICE_NAMESPACE: "myapp",
+    resources.SERVICE_VERSION: get_version(search_parent_directories=True),
+    # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/deployment_environment/
+    resources.DEPLOYMENT_ENVIRONMENT: "demo",
+    # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/process/
+    resources.PROCESS_RUNTIME_NAME: sys.implementation.name,
+    resources.PROCESS_RUNTIME_VERSION: '.'.join(map(str, sys.implementation.version)),
+    resources.PROCESS_RUNTIME_DESCRIPTION: sys.version,
+    resources.PROCESS_COMMAND_ARGS: sys.argv,
 })
 
 # trace exporter

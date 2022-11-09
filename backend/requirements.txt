@@ -7,6 +7,9 @@ requests
 django-debug-toolbar
 django-environ
 
+# utility
+setuptools-scm
+
 # opentelemetry
 opentelemetry-api
 opentelemetry-sdk

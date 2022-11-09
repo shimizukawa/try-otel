@@ -6,6 +6,7 @@ import logging
 
 from opentelemetry.util.types import Attributes
 from opentelemetry.sdk._logs import LoggingHandler
+from opentelemetry.semconv.trace import SpanAttributes
 
 ALLOW_TYPES = (bool, str, int, float)
 
@@ -13,6 +14,8 @@ ALLOW_TYPES = (bool, str, int, float)
 # TODO: use structlog
 
 
+# https://opentelemetry.io/docs/reference/specification/logs/data-model/
+# https://uptrace.dev/opentelemetry/attributes.html
 class SafeLoggingHandler(LoggingHandler):
 
     @staticmethod
@@ -20,10 +23,10 @@ class SafeLoggingHandler(LoggingHandler):
         attributes = LoggingHandler._get_attributes(record)
         # add useful information that they are avoided on LoggingHandler.
         attributes["log.name"] = record.name
-        attributes["log.location"] = f"{record.pathname}:{record.lineno} in {record.funcName}"
-        attributes["log.filepath"] = record.pathname
-        attributes["log.lineno"] = record.lineno
-        attributes["log.funcname"] = record.funcName
+        attributes["code.location"] = f"{record.pathname}:{record.lineno} in {record.funcName}"
+        attributes[SpanAttributes.CODE_FILEPATH] = record.pathname
+        attributes[SpanAttributes.CODE_LINENO] = record.lineno
+        attributes[SpanAttributes.CODE_FUNCTION] = record.funcName
 
         # TODO: include local variables to stacktrace if it can be.
 

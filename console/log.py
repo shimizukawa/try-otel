@@ -5,52 +5,31 @@ setup logging
 import logging
 from logging.config import dictConfig
 
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk._logs import LoggerProvider, set_logger_provider, LoggingHandler
-from opentelemetry.sdk._logs.export import BatchLogRecordProcessor, SimpleLogRecordProcessor, ConsoleLogExporter
-from opentelemetry.sdk._logs.severity import std_to_otlp
-from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
-from opentelemetry.trace.propagation import get_current_span
+from opentelemetry.util.types import Attributes
+from opentelemetry.sdk._logs import LoggingHandler
+
+ALLOW_TYPES = (bool, str, int, float)
 
 
-class SpanLoggingHandler(LoggingHandler):
+class SafeLoggingHandler(LoggingHandler):
 
-    def emit(self, record: logging.LogRecord) -> None:
-        translated_record = self._translate(record)
-        attributes = {
-            "body": translated_record.body,
-            "severity_text": translated_record.severity_text,
-            "severity_number": translated_record.severity_number.value,
-        }
+    @staticmethod
+    def _get_attributes(record: logging.LogRecord) -> Attributes:
+        attributes = LoggingHandler._get_attributes(record)
+        for key, value in attributes.items():
+            if isinstance(value, ALLOW_TYPES):
+                pass
+            elif isinstance(value, (list, tuple)):
+                for v in value:
+                    if not isinstance(v, ALLOW_TYPES):
+                        raise ValueError()
+            else:
+                attributes[key] = str(value)
 
-        span = get_current_span()
-        span.add_event(
-            record.name,
-            attributes,
-            translated_record.timestamp
-        )
-
-        # if span is not exist?
-        # attributes = {
-        #     key: value
-        #     for (key, value) in translated_record.attributes.items()
-        #     if not key.startswith('otel')
-        # )
+        return attributes
 
 
-def setup(resource: Resource):
-    # setup log exporter
-    # from https://github.com/open-telemetry/opentelemetry-python/blob/69c9e39/docs/examples/logs/example.py
-    log_emitter_provider = LoggerProvider(resource=resource)
-    set_logger_provider(log_emitter_provider)
-    log_emitter_provider.add_log_record_processor(
-        BatchLogRecordProcessor(OTLPLogExporter(endpoint="lvh.me:4317", insecure=True))
-    )
-    log_emitter_provider.add_log_record_processor(
-        SimpleLogRecordProcessor(ConsoleLogExporter())
-    )
-    # add handler in logging_config
-
+def setup():
     # logging_config
     logging_config = {
         'version': 1,
@@ -67,14 +46,12 @@ def setup(resource: Resource):
                 'formatter': 'standard'
             },
             'otel_log': {  # Attach OTLP log handler to root logger
-                '()': 'opentelemetry.sdk._logs.LoggingHandler',
-            },
-            'otel_span': {  # Attach OTLP span handler to root logger
-                '()': SpanLoggingHandler,
+                # '()': 'opentelemetry.sdk._logs.LoggingHandler',
+                '()': SafeLoggingHandler,
             },
         },
         'root': {  # Catch all
-            'handlers': ['console', 'otel_log', 'otel_span'],
+            'handlers': ['console', 'otel_log'],
             'level': 'NOTSET',
         },
     }

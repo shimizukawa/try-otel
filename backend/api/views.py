@@ -1,33 +1,40 @@
-import datetime
-import json
 import logging
 
 from django.contrib.auth.models import User
-from django.forms.models import model_to_dict
-from django.http import HttpResponse
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+
+from . import forms
 
 logger = logging.getLogger(__name__)
 
 
-
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, (datetime.datetime, datetime.date)):
-            return o.isoformat()
-        return json.JSONEncoder.default(self, o)
-
-
 def users(request):
-    users = [
-        {
-            k:v
-            for k, v in model_to_dict(user).items()
-            if k in ("id", "username", "first_name", "last_name", "email", "is_active")
-        }
-        for user in User.objects.all()
-    ]
+    # TODO: attach GET parameter to span event
+    logger.debug(f"CALLED: {__file__}#users")
     logger.info("headers in view.users: %r", request.headers)
-    return HttpResponse(
-        json.dumps({"users": users}, ensure_ascii=False, cls=JSONEncoder),
-        content_type="application/json",
-    )
+
+    users = [
+        forms.UserForm(instance=u).initial
+        for u in User.objects.all()
+    ]
+    logger.debug("response users: %r", users)
+
+    return JsonResponse({"users": users})
+
+
+def user_get(request, pk):
+    # TODO: attach POST parameter to span event
+    logger.debug(f"CALLED: {__file__}#user_get")
+
+    user = get_object_or_404(User, pk=pk)
+    logger.info("target user: %r", user)
+
+    form = forms.UserForm(request.POST, instance=user)
+    if not form.is_valid():
+        return JsonResponse({"error": form.errors}, status=400)
+
+    logger.debug("Save data: %r", form.cleaned_data)
+    form.save()
+
+    return JsonResponse({})

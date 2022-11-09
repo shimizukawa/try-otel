@@ -83,7 +83,7 @@ def main():
 
     logger.info('Hello')
 
-    with tracer.start_as_current_span("requests"):
+    with tracer.start_as_current_span("get users"):
         # inject will do in otel framework.
         # from opentelemetry.propagate import inject
         # headers = {}; inject(headers)
@@ -94,6 +94,22 @@ def main():
             params={'param': 1234},
         )
         assert response.status_code == 200
+        data = response.json()
+        logger.debug('response data: %r', data)
+        users = data["users"]
+        assert len(users) > 0
+
+    with tracer.start_as_current_span("update a user"):
+        user = users[0]
+        user["key"] = "value"  # TODO
+        response = requests.post(
+            f"http://api.lvh.me/api/users/{user['id']}",
+            data=user,
+        )
+        logger.debug(response.content)
+        assert response.status_code == 200
+        data = response.json()
+        logger.debug('response data: %r', data)
 
 
 if __name__ == '__main__':

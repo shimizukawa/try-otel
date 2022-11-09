@@ -1,6 +1,6 @@
 # https://github.com/open-telemetry/opentelemetry-python/blob/e1a4c38/docs/examples/django/client.py
 from pathlib import Path
-import logging
+import structlog
 
 import environ
 
@@ -9,7 +9,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 import requests
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger()
 
 
 # setup resource
@@ -106,7 +106,7 @@ def main():
         )
         assert response.status_code == 200
         data = response.json()
-        logger.debug('response data: %r', data)
+        logger.debug('response data', data=data)
         users = data["users"]
         assert len(users) > 0
 
@@ -117,10 +117,10 @@ def main():
             f"http://api.lvh.me/api/users/{user['id']}",
             data=user,
         )
-        logger.debug(response.content)
+        logger.debug("response content", content=response.content)
         assert response.status_code == 200
         data = response.json()
-        logger.debug('response data: %r', data)
+        logger.debug('response data', data=data)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 # app
 requests
 django-environ
+structlog
 
 # utility
 setuptools-scm

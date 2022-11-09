@@ -16,6 +16,14 @@ class SafeLoggingHandler(LoggingHandler):
     @staticmethod
     def _get_attributes(record: logging.LogRecord) -> Attributes:
         attributes = LoggingHandler._get_attributes(record)
+        # add useful information that they are avoided on LoggingHandler.
+        attributes["log.name"] = record.name
+        attributes["log.location"] = f"{record.pathname}:{record.lineno} in {record.funcName}"
+        attributes["log.filepath"] = record.pathname
+        attributes["log.lineno"] = record.lineno
+        attributes["log.funcname"] = record.funcName
+
+        # convert values to allowed types
         for key, value in attributes.items():
             if isinstance(value, ALLOW_TYPES):
                 pass

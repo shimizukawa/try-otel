@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 def users(request):
     # TODO: attach GET parameter to span event
-    logger.debug(f"CALLED: {__file__}#users")
     logger.info("headers in view.users: %r", request.headers)
 
     users = [
@@ -25,8 +24,6 @@ def users(request):
 
 def user_get(request, pk):
     # TODO: attach POST parameter to span event
-    logger.debug(f"CALLED: {__file__}#user_get")
-
     user = get_object_or_404(User, pk=pk)
     logger.info("target user: %r", user)
 

@@ -1,104 +1,34 @@
-# https://github.com/open-telemetry/opentelemetry-python/blob/e1a4c38/docs/examples/django/client.py
+"""
+client for Django API
+
+https://github.com/open-telemetry/opentelemetry-python/blob/e1a4c38/docs/examples/django/client.py
+"""
 from pathlib import Path
 import logging
 
 import environ
+import requests
+from opentelemetry.trace import get_tracer_provider
 
+# first: setup environment
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / '.env')
 
-import requests
+# second: setup opentelemetry exporters and instrumentors
+import otel
+otel.setup("console-client", "myapp")
 
+# get logger
 logger = logging.getLogger(__name__)
 
-
-# setup resource
-from opentelemetry.sdk import resources
-from setuptools_scm import get_version
-import sys
-resource = resources.Resource(attributes={
-    # # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/#service
-    resources.SERVICE_NAME: "console-client",
-    resources.SERVICE_NAMESPACE: "myapp",
-    resources.SERVICE_VERSION: get_version(search_parent_directories=True),
-    # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/deployment_environment/
-    resources.DEPLOYMENT_ENVIRONMENT: "demo",
-    # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/process/
-    resources.PROCESS_RUNTIME_NAME: sys.implementation.name,
-    resources.PROCESS_RUNTIME_VERSION: '.'.join(map(str, sys.implementation.version)),
-    resources.PROCESS_RUNTIME_DESCRIPTION: sys.version,
-    resources.PROCESS_COMMAND_ARGS: sys.argv,
-})
-
-# trace exporter
-# https://github.com/open-telemetry/opentelemetry.io/blob/dfadc50/content/en/docs/instrumentation/python/exporters.md
-from opentelemetry.trace import set_tracer_provider
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor, BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-
-tracer_provider = TracerProvider(resource=resource)
-set_tracer_provider(tracer_provider)
-tracer_provider.add_span_processor(
-    SimpleSpanProcessor(ConsoleSpanExporter())
-)
-tracer_provider.add_span_processor(
-    BatchSpanProcessor(OTLPSpanExporter(endpoint="lvh.me:4317", insecure=True))
-)
-
-# metrics exporter
-# https://github.com/open-telemetry/opentelemetry.io/blob/dfadc50/content/en/docs/instrumentation/python/exporters.md
-# https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics
-from opentelemetry import metrics
-from opentelemetry.sdk.metrics import MeterProvider
-from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader, ConsoleMetricExporter
-from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
-
-provider = MeterProvider(resource=resource, metric_readers=[
-    PeriodicExportingMetricReader(ConsoleMetricExporter()),
-    PeriodicExportingMetricReader(OTLPMetricExporter(endpoint="lvh.me:4317", insecure=True)),
-])
-metrics.set_meter_provider(provider)
-
-
-# log exporter
-# from https://github.com/open-telemetry/opentelemetry-python/blob/69c9e39/docs/examples/logs/example.py
-from opentelemetry.sdk._logs import LoggerProvider, set_logger_provider
-from opentelemetry.sdk._logs.export import BatchLogRecordProcessor, SimpleLogRecordProcessor, ConsoleLogExporter
-from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
-logger_provider = LoggerProvider(resource=resource)
-set_logger_provider(logger_provider)
-logger_provider.add_log_record_processor(
-    BatchLogRecordProcessor(OTLPLogExporter(endpoint="lvh.me:4317", insecure=True))
-)
-logger_provider.add_log_record_processor(
-    SimpleLogRecordProcessor(ConsoleLogExporter())
-)
-# and add 'opentelemetry.sdk._logs.LoggingHandler' handler in settings.LOGGING
-import log
-log.setup()
-
-
 # get tracer for main process
-tracer = tracer_provider.get_tracer(__name__)
+tracer = get_tracer_provider().get_tracer(__name__)
 
 
 def main():
-    # requests instrumentation
-    import opentelemetry.instrumentation.requests
-    opentelemetry.instrumentation.requests.RequestsInstrumentor().instrument()
-
-    # Logging (inject trace_id etc into logger)
-    from opentelemetry.instrumentation.logging import LoggingInstrumentor
-    LoggingInstrumentor().instrument()
-
     logger.info('Hello')
 
     with tracer.start_as_current_span("get users"):
-        # inject will do in otel framework.
-        # from opentelemetry.propagate import inject
-        # headers = {}; inject(headers)
-
         # action
         response = requests.get(
             'http://api.lvh.me/api/users',
@@ -126,6 +56,3 @@ def main():
 if __name__ == '__main__':
     with tracer.start_as_current_span("client"):
         main()
-
-    from opentelemetry.sdk._logs import get_logger_provider
-    get_logger_provider().shutdown()

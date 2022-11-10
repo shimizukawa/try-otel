@@ -89,6 +89,43 @@ logger_provider.add_log_record_processor(
 # and add 'opentelemetry.sdk._logs.LoggingHandler' handler in settings.LOGGING
 
 
+# django request_hook / response_hook
+# https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/django/django.html#request-and-response-hooks
+from opentelemetry.sdk.trace import Span
+from django.http import HttpRequest, HttpResponse
+
+def request_hook(span: Span, request: HttpRequest):
+    import json
+    attributes = {
+        "custom.http.get": json.dumps(request.GET),
+        "custom.http.post": json.dumps(request.POST),
+    }
+    span.add_event(
+        "Django request params",
+        attributes,
+    )
+
+    # add_event is better than logging because Uptrace tab is separated to EVENT
+    # import logging
+    # logger = logging.getLogger(__name__)
+    # logger.debug("Django request params", extra=attributes)
+
+
+def response_hook(span: Span, request: HttpRequest, response: HttpResponse):
+    attributes = {
+        "custom.http.response": response.content[:1000],
+    }
+    span.add_event(
+        "Django response data",
+        attributes,
+    )
+
+    # add_event is better than logging because Uptrace tab is separated to EVENT
+    # import logging
+    # logger = logging.getLogger(__name__)
+    # logger.debug("Django response data", extra=attributes)
+
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
@@ -99,7 +136,7 @@ def main():
 
     # This call is what makes the Django application be instrumented
     from opentelemetry.instrumentation.django import DjangoInstrumentor
-    DjangoInstrumentor().instrument()
+    DjangoInstrumentor().instrument(request_hook=request_hook, response_hook=response_hook)
 
     # Logging（ログ出力へのtrace_id等差し込み）
     from opentelemetry.instrumentation.logging import LoggingInstrumentor

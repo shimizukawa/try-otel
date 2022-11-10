@@ -51,7 +51,7 @@ def setup_tracer(resource, /, enable_console=False):
             SimpleSpanProcessor(ConsoleSpanExporter())
         )
     tracer_provider.add_span_processor(
-        BatchSpanProcessor(OTLPSpanExporter(endpoint="lvh.me:4317", insecure=True))
+        BatchSpanProcessor(OTLPSpanExporter())
     )
 
 def setup_metric(resource, /, enable_console=False):
@@ -66,7 +66,7 @@ def setup_metric(resource, /, enable_console=False):
     from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
 
     metric_readers = [
-        PeriodicExportingMetricReader(OTLPMetricExporter(endpoint="lvh.me:4317", insecure=True)),
+        PeriodicExportingMetricReader(OTLPMetricExporter()),
     ]
     if enable_console:
         metric_readers.append(
@@ -88,7 +88,7 @@ def setup_logger(resource, /, enable_console=False):
     logger_provider = LoggerProvider(resource=resource)
     set_logger_provider(logger_provider)
     logger_provider.add_log_record_processor(
-        BatchLogRecordProcessor(OTLPLogExporter(endpoint="lvh.me:4317", insecure=True))
+        BatchLogRecordProcessor(OTLPLogExporter())
     )
     if enable_console:
         from opentelemetry.sdk._logs.export import SimpleLogRecordProcessor, ConsoleLogExporter

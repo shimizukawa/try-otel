@@ -102,5 +102,5 @@ def setup_instrumentor():
     opentelemetry.instrumentation.requests.RequestsInstrumentor().instrument()
 
     # Logging (inject trace_id etc into logger)
-    from opentelemetry.instrumentation.logging import LoggingInstrumentor
-    LoggingInstrumentor().instrument()
+    # from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    # LoggingInstrumentor().instrument()

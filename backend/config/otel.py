@@ -158,5 +158,5 @@ def setup_instrumentor():
     DjangoInstrumentor().instrument(request_hook=request_hook, response_hook=response_hook)
 
     # Logging (inject trace_id etc into logger)
-    from opentelemetry.instrumentation.logging import LoggingInstrumentor
-    LoggingInstrumentor().instrument()
+    # from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    # LoggingInstrumentor().instrument()

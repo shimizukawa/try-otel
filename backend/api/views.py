@@ -10,20 +10,17 @@ logger = logging.getLogger(__name__)
 
 
 def users(request):
-    # TODO: attach GET parameter to span event
     logger.info("headers in view.users: %r", request.headers)
 
     users = [
         forms.UserForm(instance=u).initial
         for u in User.objects.all()
     ]
-    logger.debug("response users: %r", users)
 
     return JsonResponse({"users": users})
 
 
 def user_get(request, pk):
-    # TODO: attach POST parameter to span event
     user = get_object_or_404(User, pk=pk)
     logger.info("target user: %r", user)
 

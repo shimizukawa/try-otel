@@ -20,7 +20,7 @@ def users(request):
     return JsonResponse({"users": users})
 
 
-def user_get(request, pk):
+def user_post(request, pk):
     user = get_object_or_404(User, pk=pk)
     logger.info("target user: %r", user)
 

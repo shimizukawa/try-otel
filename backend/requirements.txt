@@ -21,7 +21,6 @@ opentelemetry-instrumentation-celery
 opentelemetry-instrumentation-logging
 opentelemetry-instrumentation-psycopg2
 opentelemetry-instrumentation-redis
-opentelemetry-instrumentation-requests
 
 # exporter
 opentelemetry-exporter-otlp-proto-grpc

@@ -78,7 +78,7 @@ def setup_metric(resource, /, enable_console=False):
 
 
 def setup_logger(resource, /, enable_console=False):
-    """log exporter
+    """log exporter (experimental)
 
     from https://github.com/open-telemetry/opentelemetry-python/blob/69c9e39/docs/examples/logs/example.py
     """
@@ -96,6 +96,33 @@ def setup_logger(resource, /, enable_console=False):
             SimpleLogRecordProcessor(ConsoleLogExporter())
         )
     # and add 'opentelemetry.sdk._logs.LoggingHandler' handler in settings.LOGGING
+
+
+def setup_instrumentor():
+    # patch for opentelemetry-instrumentation-psycopg2
+    # psycopg2-binary をインストールしていると動作しないため回避
+    # https://github.com/open-telemetry/opentelemetry-python-contrib/issues/610#issuecomment-953168011
+    import opentelemetry.instrumentation.dependencies
+    orig_get_dependency_conflicts = opentelemetry.instrumentation.dependencies.get_dependency_conflicts
+    def psycopg2_or_psycopg2_binary_dependency_conficts(deps):
+        if 'psycopg2 >= 2.7.3.1' in deps:
+            conflict = orig_get_dependency_conflicts(deps)
+            if conflict and not conflict.found:
+                return orig_get_dependency_conflicts(['psycopg2-binary>=2.7.3.1'])
+        return orig_get_dependency_conflicts(deps)
+    opentelemetry.instrumentation.dependencies.get_dependency_conflicts = psycopg2_or_psycopg2_binary_dependency_conficts
+
+    # Postgres
+    from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
+    Psycopg2Instrumentor().instrument(enable_commenter=True, commenter_options={})
+
+    # Django
+    from opentelemetry.instrumentation.django import DjangoInstrumentor
+    DjangoInstrumentor().instrument(request_hook=request_hook, response_hook=response_hook)
+
+    # Logging (inject trace_id etc into logger)
+    # from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    # LoggingInstrumentor().instrument()
 
 
 # django request_hook / response_hook
@@ -133,30 +160,3 @@ def response_hook(span: Span, request: HttpRequest, response: HttpResponse):
     # import logging
     # logger = logging.getLogger(__name__)
     # logger.debug("Django response data", extra=attributes)
-
-
-def setup_instrumentor():
-    # patch for opentelemetry-instrumentation-psycopg2
-    # psycopg2-binary をインストールしていると動作しないため回避
-    # https://github.com/open-telemetry/opentelemetry-python-contrib/issues/610#issuecomment-953168011
-    import opentelemetry.instrumentation.dependencies
-    orig_get_dependency_conflicts = opentelemetry.instrumentation.dependencies.get_dependency_conflicts
-    def psycopg2_or_psycopg2_binary_dependency_conficts(deps):
-        if 'psycopg2 >= 2.7.3.1' in deps:
-            conflict = orig_get_dependency_conflicts(deps)
-            if conflict and not conflict.found:
-                return orig_get_dependency_conflicts(['psycopg2-binary>=2.7.3.1'])
-        return orig_get_dependency_conflicts(deps)
-    opentelemetry.instrumentation.dependencies.get_dependency_conflicts = psycopg2_or_psycopg2_binary_dependency_conficts
-
-    # Postgres
-    from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
-    Psycopg2Instrumentor().instrument(enable_commenter=True, commenter_options={})
-
-    # Django
-    from opentelemetry.instrumentation.django import DjangoInstrumentor
-    DjangoInstrumentor().instrument(request_hook=request_hook, response_hook=response_hook)
-
-    # Logging (inject trace_id etc into logger)
-    # from opentelemetry.instrumentation.logging import LoggingInstrumentor
-    # LoggingInstrumentor().instrument()

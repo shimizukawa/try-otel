@@ -30,7 +30,7 @@ class Content extends BaseOpenTelemetryComponent {
   userList(list) {
     const userList = list.map((user, index) => {
       return (
-        <li>
+        <li key={user.id}>
           {user.username}: {user.email}
         </li>
       );

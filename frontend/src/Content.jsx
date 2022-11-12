@@ -17,20 +17,26 @@ class Content extends BaseOpenTelemetryComponent {
 
   buttonHandler() {
     this.setState({isLoading: true})
-    const randomDelay = Math.random() * 10000;
-    setTimeout(() => {
-      this.setState({
-        isLoading: false,
-        results: randomDelay
+    fetch('http://api.lvh.me/api/users', {mode: 'cors'})
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          isLoading: false,
+          results: data
+        })
       })
-    },
-    randomDelay);
   }
-  requestServer() {
-    this.setState({isLoading: true})
-    fetch('http://api.lvh.me/api/users', {mode: 'cors'}).then(response => {
-      this.setState({isLoading: false})
-    })
+
+  userList(list) {
+    const userList = list.map((user, index) => {
+      return (
+        <li>
+          {user.username}: {user.email}
+        </li>
+      );
+    });
+
+    return <ul>{userList}</ul>;
   }
 
   renderResults(){
@@ -44,7 +50,8 @@ class Content extends BaseOpenTelemetryComponent {
     }
     return (
       <div>
-        Request was delayed {this.state.results} ms
+        response:
+        {this.userList(this.state.results.users)}
       </div>
     )
   }
@@ -54,14 +61,11 @@ class Content extends BaseOpenTelemetryComponent {
       <div>
         <h1>React Plugin Demo App</h1>
         <Button onClick={() => this.buttonHandler()} style={{marginBottom: '20px'}}>
-          Run Timer
+          Make Request
         </Button>
         <div id="results">
           {this.renderResults()}
         </div>
-        <Button onClick={() => this.requestServer()} style={{marginBottom: '20px'}}>
-          Make Request
-        </Button>
       </div>
     )
   }

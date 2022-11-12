@@ -35,7 +35,7 @@ $ docker compose up
 
 And open:
 
-* Uptrace:http://uptrace.lvh.me/
+* Uptrace:http://uptrace.lvh.me/  - Select "My project" from Top-Left dropdown.
 - Jaeger: http://jaeger.lvh.me/
 - Zipkin: http://zipkin.lvh.me/
 - Prometheus: http://prometheus.lvh.me/

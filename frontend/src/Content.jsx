@@ -16,7 +16,7 @@ class Content extends BaseOpenTelemetryComponent {
   }
 
   buttonHandler() {
-    this.setState({isLoading: true})
+    this.setState({isLoading: true, results: null})
     fetch('http://api.lvh.me/api/users', {mode: 'cors'})
       .then((response) => response.json())
       .then((data) => {
@@ -59,7 +59,7 @@ class Content extends BaseOpenTelemetryComponent {
   render() {
     return (
       <div>
-        <h1>React Plugin Demo App</h1>
+        <h1>React OpenTelemetry Demo App</h1>
         <Button onClick={() => this.buttonHandler()} style={{marginBottom: '20px'}}>
           Make Request
         </Button>

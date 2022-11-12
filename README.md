@@ -30,7 +30,7 @@ Email server
 ## invoke docker components
 
 ```bash
-$ docker compse up
+$ docker compose up
 ```
 
 And open:

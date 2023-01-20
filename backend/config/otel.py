@@ -82,7 +82,8 @@ def setup_logger(resource, /, enable_console=False):
 
     from https://github.com/open-telemetry/opentelemetry-python/blob/69c9e39/docs/examples/logs/example.py
     """
-    from opentelemetry.sdk._logs import LoggerProvider, set_logger_provider
+    from opentelemetry._logs import set_logger_provider
+    from opentelemetry.sdk._logs import LoggerProvider
     from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
     from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
     logger_provider = LoggerProvider(resource=resource)
@@ -99,22 +100,11 @@ def setup_logger(resource, /, enable_console=False):
 
 
 def setup_instrumentor():
-    # patch for opentelemetry-instrumentation-psycopg2
-    # psycopg2-binary をインストールしていると動作しないため回避
-    # https://github.com/open-telemetry/opentelemetry-python-contrib/issues/610#issuecomment-953168011
-    import opentelemetry.instrumentation.dependencies
-    orig_get_dependency_conflicts = opentelemetry.instrumentation.dependencies.get_dependency_conflicts
-    def psycopg2_or_psycopg2_binary_dependency_conficts(deps):
-        if 'psycopg2 >= 2.7.3.1' in deps:
-            conflict = orig_get_dependency_conflicts(deps)
-            if conflict and not conflict.found:
-                return orig_get_dependency_conflicts(['psycopg2-binary>=2.7.3.1'])
-        return orig_get_dependency_conflicts(deps)
-    opentelemetry.instrumentation.dependencies.get_dependency_conflicts = psycopg2_or_psycopg2_binary_dependency_conficts
-
     # Postgres
     from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
-    Psycopg2Instrumentor().instrument(enable_commenter=True, commenter_options={})
+    # psycopg2-binary をインストールしていると動作しないため skip_dep_check=True で回避
+    # https://github.com/open-telemetry/opentelemetry-python-contrib/issues/610#issuecomment-1295391610
+    Psycopg2Instrumentor().instrument(enable_commenter=True, commenter_options={}, skip_dep_check=True)
 
     # Django
     from opentelemetry.instrumentation.django import DjangoInstrumentor

@@ -24,3 +24,4 @@ opentelemetry-instrumentation-redis
 
 # exporter
 opentelemetry-exporter-otlp-proto-grpc
+protobuf~=3.20.0  # opentelemetry-exporter-otlp-proto-grpc requires 3.20.0 or lower

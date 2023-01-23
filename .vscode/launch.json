@@ -11,7 +11,9 @@
       "type": "node-terminal",
       "cwd": "${workspaceFolder}/frontend",
       "env": {
-          "BROWSER": "none"
+        "OTEL_SERVICE_NAME": "react-load-example",
+        "OTEL_RESOURCE_ATTRIBUTES": "deployment.environment=demo,service.namespace=myapp",
+        "BROWSER": "none"
       },
       "serverReadyAction": {
         "pattern": "Local:.*https?://\\S+",
@@ -26,6 +28,9 @@
       "program": "${workspaceFolder}/console/client.py",
       "console": "integratedTerminal",
       "justMyCode": false,
+      "env": {
+        "OTEL_SERVICE_NAME": "console-client"
+      }
     },
     {
       // "preLaunchTask": "pip install"
@@ -36,7 +41,10 @@
       "console": "integratedTerminal",
       "args": ["runserver", "0.0.0.0:8000", "--noreload", "--nothreading"],
       "django": true,
-      "justMyCode": false
+      "justMyCode": false,
+      "env": {
+        "OTEL_SERVICE_NAME": "django-backend"
+      }
     }
   ]
 }

@@ -166,25 +166,17 @@ LOGGING = {
         },
     },
     'loggers': {
-        '': {  # 'root' の代わり。全てキャッチする
+        '': {  # 'root' と同義。全てキャッチする
             'handlers': ['console', 'otel_log'],
             'level': 'NOTSET',
-            'propagate': False
         },
         'django': {
-            'handlers': ['console', 'otel_log'],
-            'level': 'INFO',
-            'propagate': False
+            'level': 'NOTSET',
+            'propagate': True
         },
         'django.request': {
-            'handlers': ['console', 'otel_log'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'django.db.backends': {
-            'handlers': ['otel_log'],
-            'level': 'DEBUG',
-            'propagate': False
+            'level': 'NOTSET',
+            'propagate': True,
         },
     }
 }

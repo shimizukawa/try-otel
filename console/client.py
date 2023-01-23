@@ -14,9 +14,13 @@ from opentelemetry.trace import get_tracer_provider
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / '.env')
 
-# second: setup opentelemetry exporters and instrumentors
+# second: setup logger
+import log
+log.setup()
+
+# third: setup opentelemetry exporters and instrumentors
 import otel
-otel.setup("console-client", "myapp")
+otel.setup()
 
 # get logger
 logger = logging.getLogger(__name__)

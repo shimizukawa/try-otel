@@ -59,13 +59,9 @@ def setup():
                 'class': 'logging.StreamHandler',
                 'formatter': 'standard'
             },
-            'otel_log': {  # Attach OTLP log handler to root logger
-                # '()': 'opentelemetry.sdk._logs.LoggingHandler',
-                '()': SafeLoggingHandler,
-            },
         },
         'root': {  # Catch all
-            'handlers': ['console', 'otel_log'],
+            'handlers': ['console'],
             'level': 'NOTSET',
         },
     }

@@ -43,3 +43,13 @@ class SafeLoggingHandler(LoggingHandler):
                 attributes[key] = str(value)
 
         return attributes
+
+
+# def setup():
+#     # Djangoのsettings.LOGGING初期化後に設定する必要がある
+#     logging.getLogger().addHandler(
+#         SafeLoggingHandler(
+#             level="NOTSET",
+#             logger_provider=None,
+#         )
+#     )

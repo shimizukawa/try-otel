@@ -18,7 +18,7 @@ def main():
 
     # third: setup opentelemetry exporters and instrumentors
     from config import otel
-    otel.setup("django-backend", "myapp")
+    otel.setup()
 
     try:
         from django.core.management import execute_from_command_line

@@ -56,8 +56,7 @@ def setup():
     distro = MyDistro()
     distro.update_resources({
         # # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/#service
-        # resources.SERVICE_VERSION: get_version(search_parent_directories=True),
-        resources.SERVICE_VERSION: "2023.10.19",
+        resources.SERVICE_VERSION: get_version(search_parent_directories=True),
         # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/process/
         resources.PROCESS_RUNTIME_NAME: sys.implementation.name,
         resources.PROCESS_RUNTIME_VERSION: '.'.join(map(str, sys.implementation.version)),

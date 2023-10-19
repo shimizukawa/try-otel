@@ -1,0 +1,3 @@
+-- CREATE USER postgres;
+CREATE DATABASE backend;
+GRANT ALL PRIVILEGES ON DATABASE backend TO postgres ;

@@ -50,7 +50,13 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: uptrace
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./config/pg-init.sql:/docker-entrypoint-initdb.d/pg-init.sql
+      - pg_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -88,7 +94,7 @@ services:
       - 'host.docker.internal:host-gateway'
 
   uptrace:
-    image: 'uptrace/uptrace:1.3.1'
+    image: 'uptrace/uptrace:1.5.9'
     volumes:
       - uptrace_data:/var/lib/uptrace
       - ./config/uptrace.yml:/etc/uptrace/uptrace.yml
@@ -131,6 +137,8 @@ services:
 
 volumes:
   uptrace_data:
+    driver: local
+  pg_data:
     driver: local
   ch_data:
     driver: local

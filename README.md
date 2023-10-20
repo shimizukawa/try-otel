@@ -64,7 +64,7 @@ $ python manage.py runserver 0.0.0.0:8000
 
 And open http://api.lvh.me/
 
-## run console client
+## Run console client (MANUAL Instrumentation)
 
 setup
 
@@ -76,6 +76,22 @@ $ pip install -r requirements.txt -c ../constraints.txt
 run client
 ```console
 $ python client.py
+```
+
+## Run console client (AUTO Instrumentation)
+
+setup
+
+```console
+$ cd console-auto
+$ pip install -r requirements.txt -c ../constraints.txt
+```
+
+run client
+```console
+$ # export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+$ export OTEL_SERVICE_NAME=console-auto
+$ opentelemetry-instrument python client.py
 ```
 
 ## run react frontend

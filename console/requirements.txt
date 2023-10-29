@@ -6,11 +6,7 @@ django-environ
 setuptools-scm
 
 # opentelemetry
-opentelemetry-api
-opentelemetry-sdk
+opentelemetry-distro[otlp]
 opentelemetry-instrumentation-requests
 opentelemetry-instrumentation-urllib
 opentelemetry-instrumentation-urllib3
-
-# exporter
-opentelemetry-exporter-otlp-proto-grpc

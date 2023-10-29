@@ -2,11 +2,16 @@
 setup logging
 """
 
-from logging.config import dictConfig
+import logging.config
 
 
 def setup():
-    # logging_config
+    """
+    settings.LOGGING初期化前に設定されているhandlersを引き継ぐ
+    """
+    root = logging.getLogger()
+    root_handlers = root.handlers[:]
+
     logging_config = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -21,15 +26,17 @@ def setup():
                 'class': 'logging.StreamHandler',
                 'formatter': 'standard'
             },
-            'otel': {
-                'level': 'DEBUG',
-                'class': 'opentelemetry.sdk._logs.LoggingHandler',
-                'formatter': 'standard'
-            },
         },
         'root': {  # Catch all
-            'handlers': ['console', 'otel'],
+            'handlers': ['console'],
             'level': 'NOTSET',
         },
     }
-    dictConfig(logging_config)
+
+    # dictConfigではどうやってもroot.handlersは消えてしまう
+    logging.config.dictConfig(logging_config)
+
+    # バックアップしておいたhandlersを復元
+    for h in root_handlers:
+        if h not in root.handlers:
+            root.addHandler(h)

@@ -51,7 +51,7 @@ def main():
             f"http://api.lvh.me/api/users/{user['id']}",
             data=user,
         )
-        logger.debug(response.content)
+        logger.debug("response raw body: %r", response.content)
         assert response.status_code == 200
         data = response.json()
         logger.debug('response data: %r', data)

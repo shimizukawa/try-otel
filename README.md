@@ -62,34 +62,18 @@ $ docker compose run --rm backend
 
 And open http://api.lvh.me/
 
-## Run console client (MANUAL Instrumentation)
+## Run console client
 
-setup
+run client with **manual** instrumentation
 
 ```console
-$ cd console
-$ pip install -r requirements.txt -c ../constraints.txt
+$ docker compose run --rm console
 ```
 
-run client
-```console
-$ python client.py
-```
-
-## Run console client (AUTO Instrumentation)
-
-setup
+run client with **auto** instrumentation
 
 ```console
-$ cd console-auto
-$ pip install -r requirements.txt -c ../constraints.txt
-```
-
-run client
-```console
-$ # export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
-$ export OTEL_SERVICE_NAME=console-auto
-$ opentelemetry-instrument python client.py
+$ docker compose run --rm console-auto
 ```
 
 ## run react frontend

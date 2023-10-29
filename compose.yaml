@@ -88,14 +88,11 @@ services:
       - postgres
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/backend
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=demo
       - OTEL_SERVICE_NAME=django
       # - OTEL_TRACES_EXPORTER=console,otlp
       # - OTEL_METRICS_EXPORTER=console,otlp
       # - OTEL_LOGS_EXPORTER=console,otlp
       - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
-      # - OTEL_PYTHON_LOG_CORRELATION=true
-      # - OTEL_PYTHON_LOG_LEVEL=debug
       - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
       - OTEL_EXPORTER_OTLP_INSECURE=true
     command:
@@ -104,6 +101,44 @@ services:
       - |
         python manage.py migrate
         opentelemetry-instrument python manage.py runserver 0.0.0.0:8000 --noreload
+
+  console:
+    build:
+      context: ./
+      dockerfile: ./console/Dockerfile
+    image: console:latest
+    volumes:
+      - ./console:/code
+    environment:
+      # - OTEL_TRACES_EXPORTER=console,otlp
+      # - OTEL_METRICS_EXPORTER=console,otlp
+      # - OTEL_LOGS_EXPORTER=console,otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+    command: python client.py
+    extra_hosts:
+      - 'api.lvh.me:host-gateway'
+    profiles:
+      - notstart
+
+  console-auto:
+    build:
+      context: ./
+      dockerfile: ./console-auto/Dockerfile
+    image: console-auto:latest
+    volumes:
+      - ./console-auto:/code
+    environment:
+      # - OTEL_TRACES_EXPORTER=console,otlp
+      # - OTEL_METRICS_EXPORTER=console,otlp
+      # - OTEL_LOGS_EXPORTER=console,otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+    command: opentelemetry-instrument python client.py
+    extra_hosts:
+      - 'api.lvh.me:host-gateway'
+    profiles:
+      - notstart
 
 # for uptrace
 

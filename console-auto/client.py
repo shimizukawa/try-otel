@@ -9,7 +9,6 @@ import logging
 import environ
 import requests
 from opentelemetry.trace import get_tracer_provider
-from opentelemetry.sdk._logs import LoggingHandler as OtelLoggingHandler
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / '.env')
@@ -45,7 +44,7 @@ def main():
             f"http://api.lvh.me/api/users/{user['id']}",
             data=user,
         )
-        logger.debug(response.content)
+        logger.debug("response raw body: %r", response.content)
         assert response.status_code == 200
         data = response.json()
         logger.debug('response data: %r', data)

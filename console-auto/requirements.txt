@@ -5,10 +5,8 @@ django-environ
 # utility
 setuptools-scm
 
-# opentelemetry auto instrumentation
+# opentelemetry
 opentelemetry-distro[otlp]
-
-# opentelemetry instrumentation
 opentelemetry-instrumentation-requests
 opentelemetry-instrumentation-urllib
 opentelemetry-instrumentation-urllib3

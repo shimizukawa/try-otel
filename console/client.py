@@ -15,8 +15,9 @@ import otel
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / '.env')
 
-otel.setup()
+# initialize logging first for logging in the otel module
 log.setup()
+otel.setup()
 
 # get tracer for main process
 tracer = get_tracer_provider().get_tracer(__name__)

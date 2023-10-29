@@ -11,11 +11,12 @@ from opentelemetry.trace import get_tracer_provider
 # get logger
 logger = logging.getLogger(__name__)
 
-# get tracer for main process
-tracer = get_tracer_provider().get_tracer(__name__)
-
 
 def main():
+    # get tracer for main process
+    # **IMPORTANT**: it shoud not be called at module global
+    tracer = get_tracer_provider().get_tracer(__name__)
+
     logger.info('Hello')
 
     with tracer.start_as_current_span("get users"):

@@ -9,8 +9,11 @@ from urllib.parse import parse_qsl
 
 from opentelemetry.sdk import resources
 from opentelemetry.sdk.environment_variables import OTEL_RESOURCE_ATTRIBUTES
-from opentelemetry.distro import OpenTelemetryDistro, OpenTelemetryConfigurator
 from opentelemetry.instrumentation.distro import BaseDistro
+from opentelemetry.instrumentation.auto_instrumentation._load import (
+    _load_configurators,
+    _load_distro,
+)
 from pkg_resources import EntryPoint, iter_entry_points
 
 logger = logging.getLogger(__name__)
@@ -48,15 +51,15 @@ def load_instrumentor_by_name(
 
 
 def setup():
-    distro = OpenTelemetryDistro()
     update_resources({
         # https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/process/
         resources.PROCESS_RUNTIME_NAME: sys.implementation.name,
         resources.PROCESS_RUNTIME_VERSION: '.'.join(map(str, sys.implementation.version)),
         resources.PROCESS_COMMAND_ARGS: " ".join(sys.argv),
     })
+    distro = _load_distro()
     distro.configure()
-    OpenTelemetryConfigurator().configure()
+    _load_configurators()
 
     load_instrumentor_by_name(distro, "requests")
     load_instrumentor_by_name(distro, "urllib")

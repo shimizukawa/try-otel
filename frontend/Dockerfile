@@ -21,6 +21,6 @@ ENV DEPLOYMENT_ENVIRONMENT "demo"
 
 # https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/
 # https://opentelemetry.io/docs/reference/specification/protocol/exporter/#configuration-options
-ENV EXPORTER_OTLP_ENDPOINT "http://localhost:4317/v1/traces"
+ENV OTEL_EXPORTER_OTLP_ENDPOINT "http://localhost:4317/v1/traces"
 
 CMD npm run dev

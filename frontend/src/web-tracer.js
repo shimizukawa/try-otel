@@ -25,7 +25,7 @@ export default (serviceName) => {
     // url: "http://localhost:4318/v1/traces", by default. http://127.0.0.1:3000 violate sop.
     // url: "http://lvh.me:4318/v1/traces",  // http
     // url: "http://otlp.lvh.me/v1/traces",  // http
-    // url: "http://lvh.me/v1/traces",  // http to avoid CORS error
+    url: "http://lvh.me/v1/traces",  // http to avoid CORS error
     // url: process.env.EXPORTER_OTLP_ENDPOINT,
   });
 

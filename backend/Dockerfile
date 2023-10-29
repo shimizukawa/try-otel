@@ -32,8 +32,6 @@ ENV OTEL_PYTHON_LOG_LEVEL "debug"
 # Django Instrumentation
 # https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/django/django.html#request-attributes
 ENV OTEL_PYTHON_DJANGO_TRACED_REQUEST_ATTRS "path_info,content_type"
-
-# Instrumentation
 # https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/django/django.html#request-headers
 ENV OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_REQUEST "content_type,traceparent,tracestatus"
 

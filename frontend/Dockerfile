@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/root/.npm \
     npx update-browserslist-db@latest
 
 COPY --chown=node:node . /code/
-RUN mkdir -p /code/node_modules/ && chmod -R node:node /code/node_modules/
+RUN mkdir -p /code/node_modules/ && chown node:node /code/node_modules/
 
 # https://opentelemetry.io/docs/concepts/sdk-configuration/general-sdk-configuration/
 # https://opentelemetry.io/docs/reference/specification/sdk-environment-variables/

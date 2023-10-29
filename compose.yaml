@@ -17,8 +17,8 @@ services:
       - "9411:9411"
 
   otel-collector:
-    image: ${OTELCOL_IMG}
-    command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    image: otel/opentelemetry-collector-contrib:0.63.1
+    command: ["--config=/etc/otel-collector-config.yaml"]
     restart: on-failure
     user: '0:0' # required for logs
     volumes:
@@ -142,6 +142,19 @@ services:
     profiles:
       - notstart
 
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: ./Dockerfile
+    image: frontend:latest
+    volumes:
+      - ./frontend:/code
+      - frontend_node_modules:/code/node_modules
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://lvh.me:4317/v1/traces
+      # - EXPORTER_OTLP_ENDPOINT=http://lvh.me:4317/v1/traces
+    command: npm run dev
+
 # for uptrace
 
   clickhouse:
@@ -212,4 +225,6 @@ volumes:
   ch_data:
     driver: local
   alertmanager_data:
+    driver: local
+  frontend_node_modules:
     driver: local

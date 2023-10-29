@@ -78,16 +78,4 @@ $ docker compose run --rm console-auto
 
 ## run react frontend
 
-setup
-
-```console
-$ cd frontend
-$ npm install
-```
-
-run client
-```console
-$ npm run dev
-```
-
-And open http://lvh.me/
+Just open http://lvh.me/

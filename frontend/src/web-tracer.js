@@ -14,8 +14,9 @@ import { registerInstrumentations } from '@opentelemetry/instrumentation';
 export default (serviceName) => {
   const provider = new WebTracerProvider({
     resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: "react-load-example",
-        [SemanticResourceAttributes.SERVICE_NAMESPACE]: "myapp"
+        [SemanticResourceAttributes.SERVICE_NAME]: process.env.OTEL_SERVICE_NAME,
+        [SemanticResourceAttributes.SERVICE_NAMESPACE]: process.env.SERVICE_NAMESPACE,
+        [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.DEPLOYMENT_ENVIRONMENT
     }),
   });
 
@@ -24,7 +25,8 @@ export default (serviceName) => {
     // url: "http://localhost:4318/v1/traces", by default. http://127.0.0.1:3000 violate sop.
     // url: "http://lvh.me:4318/v1/traces",  // http
     // url: "http://otlp.lvh.me/v1/traces",  // http
-    url: "http://lvh.me/v1/traces",  // http to avoid CORS error
+    // url: "http://lvh.me/v1/traces",  // http to avoid CORS error
+    // url: process.env.EXPORTER_OTLP_ENDPOINT,
   });
 
   provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));

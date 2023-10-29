@@ -46,10 +46,8 @@ And open:
 setup
 
 ```console
-$ cd backend
-$ pip install -r requirements.txt -c ../constraints.txt
-$ python manage.py migrate
-$ python manage.py createsuperuser --username=joe --email=joe@example.com
+$ docker compose run --rm backend python manage.py migrate
+$ docker compose run --rm backend python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
 
 invoke celery (NOT READY)
@@ -59,7 +57,7 @@ $ python <TBD>
 
 invoke django
 ```console
-$ python manage.py runserver 0.0.0.0:8000
+$ docker compose run --rm backend
 ```
 
 And open http://api.lvh.me/

@@ -2,23 +2,11 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from pathlib import Path
-
-import environ
-
-# first: setup environment
-BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(BASE_DIR / '.env')
 
 
 def main():
     """Run administrative tasks."""
-    # second: define settings module
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-
-    # third: setup opentelemetry exporters and instrumentors
-    from config import otel
-    otel.setup()
 
     try:
         from django.core.management import execute_from_command_line

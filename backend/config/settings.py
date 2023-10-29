@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(BASE_DIR / '.env')
+env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -81,22 +85,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'backend',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    },
+    'default': env.db('DATABASE_URL'),
 }
 
 
@@ -143,6 +133,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGGING_CONFIG = "config.log.config"
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -160,24 +151,28 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'standard'
         },
-        'otel_log': {  # Attach OTLP log handler to root logger
-            # '()': 'opentelemetry.sdk._logs.LoggingHandler',
-            '()': 'config.log.SafeLoggingHandler',
-        },
+        # 'otel_log': {  # Attach OTLP log handler to root logger
+        #     'level': 'DEBUG',
+        #     'class': 'opentelemetry.sdk._logs.LoggingHandler',
+        #     'formatter': 'standard'
+        # },
     },
     'loggers': {
         '': {  # 'root' と同義。全てキャッチする
-            'handlers': ['console', 'otel_log'],
+            'handlers': [
+                'console',
+                # 'otel_log',
+            ],
             'level': 'NOTSET',
         },
-        'django': {
-            'level': 'NOTSET',
-            'propagate': True
-        },
-        'django.request': {
-            'level': 'NOTSET',
-            'propagate': True,
-        },
+        # 'django': {
+        #     'level': 'NOTSET',
+        #     'propagate': True
+        # },
+        # 'django.request': {
+        #     'level': 'NOTSET',
+        #     'propagate': True,
+        # },
     }
 }
 

@@ -1,5 +1,5 @@
 """
-client (manual instrumentation) for Django API
+client (auto instrumentation) for Django API
 
 https://github.com/open-telemetry/opentelemetry-python/blob/e1a4c38/docs/examples/django/client.py
 """
@@ -10,12 +10,10 @@ from opentelemetry.trace import get_tracer_provider
 
 import log
 import main
-import otel
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / '.env')
 
-otel.setup()
 log.setup()
 
 # get tracer for main process

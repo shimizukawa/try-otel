@@ -110,6 +110,7 @@ services:
     volumes:
       - ./console:/code
     environment:
+      - OTEL_SERVICE_NAME=console-hand
       # - OTEL_TRACES_EXPORTER=console,otlp
       # - OTEL_METRICS_EXPORTER=console,otlp
       # - OTEL_LOGS_EXPORTER=console,otlp
@@ -124,17 +125,18 @@ services:
   console-auto:
     build:
       context: ./
-      dockerfile: ./console-auto/Dockerfile
-    image: console-auto:latest
+      dockerfile: ./console/Dockerfile
+    image: console:latest
     volumes:
-      - ./console-auto:/code
+      - ./console:/code
     environment:
+      - OTEL_SERVICE_NAME=console-auto
       # - OTEL_TRACES_EXPORTER=console,otlp
       # - OTEL_METRICS_EXPORTER=console,otlp
       # - OTEL_LOGS_EXPORTER=console,otlp
       - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
       - OTEL_EXPORTER_OTLP_INSECURE=true
-    command: opentelemetry-instrument python client.py
+    command: opentelemetry-instrument python client-auto.py
     extra_hosts:
       - 'api.lvh.me:host-gateway'
     profiles:

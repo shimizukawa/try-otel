@@ -72,6 +72,8 @@ services:
       - 80:80
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - backend
 
   backend:
     build:
@@ -90,7 +92,7 @@ services:
       - OTEL_SERVICE_NAME=django
       # - OTEL_TRACES_EXPORTER=console,otlp
       # - OTEL_METRICS_EXPORTER=console,otlp
-      - OTEL_LOGS_EXPORTER=console,otlp
+      # - OTEL_LOGS_EXPORTER=console,otlp
       - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
       # - OTEL_PYTHON_LOG_CORRELATION=true
       # - OTEL_PYTHON_LOG_LEVEL=debug
